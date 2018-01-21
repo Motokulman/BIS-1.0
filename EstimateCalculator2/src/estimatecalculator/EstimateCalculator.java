@@ -6,18 +6,23 @@
 package estimatecalculator;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -36,14 +41,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import myclasses.Fronton;
 
-import visualcomponents.SchemaTextField;
 
 /**
  *
  * @author I
  */
 public class EstimateCalculator extends Application {
+    
+    private final  TableView<Fronton> tableViewFronton = new TableView<>();
+     private final ObservableList<Fronton> data =
+            FXCollections.observableArrayList(
+            new Fronton(1, 2),
+            new Fronton(4, 5),
+            new Fronton(7, 8),
+            new Fronton(1, 2),
+            new Fronton(3, 4));
     
     public static void main(String[] args) {
         launch(EstimateCalculator.class, args);
@@ -79,9 +93,6 @@ public class EstimateCalculator extends Application {
         Scene scene = new Scene(border);
         stage.setScene(scene);
         stage.setTitle("Estimate Calculator 2");
-        
-
-        
         stage.show();
     }
 
@@ -121,7 +132,7 @@ public class EstimateCalculator extends Application {
         vbox.getChildren().add(title);
         
         Hyperlink options[] = new Hyperlink[] {
-            new Hyperlink("Sales"),
+            new Hyperlink("Стены"),
             new Hyperlink("Marketing"),
             new Hyperlink("Distribution"),
             new Hyperlink("Costs")};
@@ -179,100 +190,171 @@ public class EstimateCalculator extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(0, 10, 0, 10));
         
-        SchemaTextField SchemaTextField_A = new SchemaTextField();
-        SchemaTextField SchemaTextField_B = new SchemaTextField();
-        SchemaTextField SchemaTextField_C = new SchemaTextField();
-        SchemaTextField SchemaTextField_D = new SchemaTextField();
-        SchemaTextField_A.setLayoutX(100);
+        TabPane tabPane = new TabPane();
+        tabPane.setMinSize(400, 300);
+        
+        Tab tab1 = new Tab();
+        tab1.setText("Несущие стены");
+      //  tab1.setContent(new Rectangle(300,150, Color.LIGHTSTEELBLUE));
+        
+      
+        // Панель для отрисовки таблицы с этажами
+        GridPane tab1GridPane = new GridPane();
+        tab1GridPane.setHgap(10);
+        tab1GridPane.setVgap(10);
+        tab1GridPane.setPadding(new Insets(25, 25, 25, 25));
+        tab1GridPane.setGridLinesVisible(true);
+        
+      //  Text scenetitle = new Text("WelcomeWelcomeWelcome");
+       // scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        tab1GridPane.add(new Text("Этажи"), 0, 0, 2, 1);
+        tab1GridPane.add(new Text("Длина"), 1, 1);
+        tab1GridPane.add(new Text("Высота"), 2, 1);
+        tab1GridPane.add(new Text("Площадь"), 3, 1);
+
+      //  Label userName = new Label("User Name:");
+        tab1GridPane.add(new Label("1"), 0, 2);
+        tab1GridPane.add(new Label("2"), 0, 3);
+        tab1GridPane.add(new Label("3"), 0, 4);
+
+        // Поля для ввода длины стен
+        TextField textFieldWallsWidth1Floor = new TextField();
+        textFieldWallsWidth1Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsWidth1Floor, 1, 2);
+        TextField textFieldWallsWidth2Floor = new TextField();
+        textFieldWallsWidth2Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsWidth2Floor, 1, 3);
+        TextField textFieldWallsWidth3Floor = new TextField();
+        textFieldWallsWidth3Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsWidth3Floor, 1, 4);
+        // Поля для ввода высоты стен
+        TextField textFieldWallsHeight1Floor = new TextField();
+        textFieldWallsHeight1Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsHeight1Floor, 2, 2);
+        TextField textFieldWallsHeight2Floor = new TextField();
+        textFieldWallsHeight2Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsHeight2Floor, 2, 3);
+        TextField textFieldWallsHeight3Floor = new TextField();
+        textFieldWallsHeight3Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsHeight3Floor, 2, 4);
+        // Поля для ввода площади стен
+        TextField textFieldWallsArea1Floor = new TextField();
+        textFieldWallsArea1Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsArea1Floor, 3, 2);
+        TextField textFieldWallsArea2Floor = new TextField();
+        textFieldWallsArea2Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsArea2Floor, 3, 3);
+        TextField textFieldWallsArea3Floor = new TextField();
+        textFieldWallsArea3Floor.setPrefWidth(50);
+        tab1GridPane.add(textFieldWallsArea3Floor, 3, 4);
+        
+        // Фронтоны
+        Label labelFronton = new Label("Фронтоны");
+        labelFronton.setFont(new Font("Arial", 20));
+        tab1GridPane.add(labelFronton, 4, 0, 2, 1);
+        
+       // TableView tableViewFronton = new TableView();
+        
+//        TableView<Fronton> tableViewFronton = new TableView<>();
+//        ObservableList<Fronton> data = FXCollections.observableArrayList(new Fronton(1.0, 2.0));
+        
+        tableViewFronton.setEditable(true);
+        tableViewFronton.setPrefHeight(100);
+        
+        TableColumn tableColumnNumber = new TableColumn("№");
+        tableColumnNumber.setCellValueFactory(new PropertyValueFactory<>("Number"));
+        
+        TableColumn tableColumnWidth = new TableColumn("Ширина");
+        tableColumnWidth.setCellValueFactory(new PropertyValueFactory<>("Width"));
+        
+        TableColumn tableColumnHeight = new TableColumn("Высота");
+        tableColumnHeight.setCellValueFactory(new PropertyValueFactory<>("Height"));
+        
+        TableColumn tableColumnArea = new TableColumn("Площадь");    
+        tableColumnArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
+        
+         tableViewFronton.setItems(data);
+         tableViewFronton.getColumns().addAll(tableColumnNumber, tableColumnWidth, tableColumnHeight, tableColumnArea);
+        
+        // добавление полей для ввода новых значений и кнопки
+        final TextField addWidth = new TextField();
+        addWidth.setPromptText("Ширина");
+        addWidth.setPrefWidth(50);
+       // addFirstName.setMaxWidth(tableColumnWidth.getPrefWidth());
+        final TextField addHeight = new TextField();
+        addHeight.setPrefWidth(50);
+     //  addHeight.setMaxWidth(lastNameCol.getPrefWidth());
+        addHeight.setPromptText("Высота");
+
+ 
+        final Button addFrontonButton = new Button("Add");
+        addFrontonButton.setOnAction((ActionEvent e) -> {
+            data.add(new Fronton(
+                    new Double(addWidth.getText()),
+                    new Double(addHeight.getText())));
+            System.out.println( new Double(addWidth.getText()));
+            addWidth.clear();
+            addHeight.clear();
+        });
+
+        
+        tab1GridPane.add(tableViewFronton, 4, 1, 3, 4);
+        tab1GridPane.add(addWidth, 4, 5);
+        tab1GridPane.add(addHeight, 5, 5);
+        tab1GridPane.add(addFrontonButton, 6, 5);
+
+
+        tab1.setContent(tab1GridPane);
+        
+        Tab tab2 = new Tab();
+        tab2.setText("2 tab");
+        tab2.setContent(new Rectangle(200,200, Color.LIGHTSTEELBLUE));
+        
+        tabPane.getTabs().addAll(tab1, tab2);
+        
+        /*
+        * Дальнейший закоментированный текст это код редактора схемы - канва с линиями и полями числовых значений
+        */
+//        SchemaTextField SchemaTextField_A = new SchemaTextField();
 //        grid.add(SchemaTextField_A, 0, 0); 
-//        grid.add(SchemaTextField_B, 0, 0); 
-//        grid.add(SchemaTextField_C, 0, 0); 
-//        grid.add(SchemaTextField_D, 0, 0);
-
-        // Рисуем поле схемы
-        Group root = new Group();
-        
-       /// Stage schemaStage = new Stage();
-       // Scene schemaScene = new Scene(root, 700, 700, Color.BLACK);
-       // schemaStage.setScene(schemaScene);
-        
-        
-                // Draw background with gradient Нафиг не нужно 
-//        Rectangle rect = new Rectangle(600, 600);
-//        drawBackground(rect);
-//        root.getChildren().add(rect);
-
-        // Create the Canvas, filled in with Blue
-        final Canvas canvas = new Canvas(600, 600);
-        canvas.setTranslateX(100);
-        canvas.setTranslateY(100);
-        reset(canvas, Color.WHITE);
-        
-        final GraphicsContext gc = canvas.getGraphicsContext2D();
-        
-        // Clear away portions as the user drags the mouse
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                
-                gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5);
-            }
-        });
-        
-        // Fill the Canvas with a Blue rectnagle when the user double-clicks
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent t) {            
-                if (t.getClickCount() >1) {
-                    reset(canvas, Color.BLUE);
-                }  
-            }
-        });
-        
-        // Add the Canvas to the Scene, and show the Stage
-        root.getChildren().add(canvas);
-        grid.add(root, 1, 0); 
- //       stage.setScene(new Scene(root, 400, 400));    
-        
-        
-        
-        
-        
-//        // Category in column 2, row 1
-//        Text category = new Text("Sales:");
-//        category.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-//        grid.add(category, 1, 0); 
-//        
-//        // Title in column 3, row 1
-//        Text chartTitle = new Text("Current Year");
-//        chartTitle.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-//        grid.add(chartTitle, 2, 0);
-//        
-//        // Subtitle in columns 2-3, row 2
-//        Text chartSubtitle = new Text("Goods and Services");
-//        grid.add(chartSubtitle, 1, 1, 2, 1);
-//        
-//        // House icon in column 1, rows 1-2
-//        ImageView imageHouse = new ImageView(
-//                    new Image(EstimateCalculator.class.getResourceAsStream("graphics/house.png")));
-//        grid.add(imageHouse, 0, 0, 1, 2);
 //
-//        // Left label in column 1 (bottom), row 3
-//        Text goodsPercent = new Text("Goods\n80%");
-//        GridPane.setValignment(goodsPercent, VPos.BOTTOM);
-//        grid.add(goodsPercent, 0, 2);
+//        // Рисуем поле схемы
+//        Group root = new Group();
+//       // Create the Canvas, filled in with Blue
+//        final Canvas canvas = new Canvas(600, 600);
+//       // canvas.setTranslateX(100);
+//      //  canvas.setTranslateY(100);
+//        reset(canvas, Color.WHITE);
 //        
-//        // Chart in columns 2-3, row 3
-//        ImageView imageChart = new ImageView(
-//                    new Image(EstimateCalculator.class.getResourceAsStream("graphics/piechart.png")));
-//        grid.add(imageChart, 1, 2, 2, 1);
+//        final GraphicsContext gc = canvas.getGraphicsContext2D();
+//
+//        // Рисуем линии
+//        drawLines(gc, canvas);
 //        
-//        // Right label in column 4 (top), row 3
-//        Text servicesPercent = new Text("Services\n20%");
-//        GridPane.setValignment(servicesPercent, VPos.TOP);
-//        grid.add(servicesPercent, 3, 2);
-        
+//        // Clear away portions as the user drags the mouse
+//        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent e) {
+//                
+//                gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5);
+//            }
+//        });
+//        
+//        // Fill the Canvas with a Blue rectnagle when the user double-clicks
+//        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent t) {            
+//                if (t.getClickCount() >1) {
+//                    reset(canvas, Color.BLUE);
+//                }  
+//            }
+//        });
+//        
+//        // Add the Canvas to the Scene, and show the Stage
+//        root.getChildren().add(canvas);
+//        grid.add(root, 1, 0); 
         grid.setGridLinesVisible(true);
+        grid.add(tabPane, 0, 0); 
         return grid;
     }
 
@@ -354,11 +436,45 @@ public class EstimateCalculator extends Application {
      * @param canvas The canvas to reset
      * @param color The color to fill
      */
-    private void reset(Canvas canvas, Color color) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(color);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
+//    private void reset(Canvas canvas, Color color) {
+//        GraphicsContext gc = canvas.getGraphicsContext2D();
+//        gc.setFill(color);
+//        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//    }
+//    
+//        private void drawLines(GraphicsContext gc, Canvas canvas) {
+//            double padding = 20.5;
+//            int hvostik = 3;
+//            int gap = 40;
+//            String letters = new String("АБВГДЕЖИКЛМНПРСТУФХЦ");
+//            
+//            gc.beginPath();
+//            gc.setStroke(Color.GRAY);   
+//            gc.setLineDashes(3, 3); // gc.setLineDashes(4, 4, 10, 4); - рисует ось симметрии
+//            for (double i = padding, j = 0; i < canvas.getHeight(); i = i + gap, j++) {
+//                gc.moveTo(i, padding - hvostik);
+//                gc.lineTo(i, canvas.getHeight() - padding + hvostik);
+//            }            
+//            for (double i = padding; i < canvas.getWidth(); i = i + gap) {
+//                gc.moveTo(padding - hvostik, i);
+//                gc.lineTo(canvas.getWidth() - padding + hvostik, i);
+//            }
+//            gc.stroke();
+//            
+//            gc.setFont(new Font(12));
+//            gc.setLineDashes(0);
+//            gc.setLineWidth(1.0);
+//            gc.setFill(Color.BLACK); 
+//            
+//            for (double i = padding, j = 1; i < canvas.getHeight(); i = i + gap, j++) {
+//                gc.fillText(Integer.toString((int) j), i - 5, 10.5);
+//                gc.fillText(Integer.toString((int) j), i - 5, canvas.getHeight() - 2.5);
+//           }  
+//            for (double i = canvas.getWidth() - padding + 4, j = 0; i > 0; i = i - gap, j++) {
+//                gc.fillText(Character.toString(letters.charAt((int) j)), 2, i);
+//                gc.fillText(Character.toString(letters.charAt((int) j)), canvas.getWidth() - 11, i);
+//           }  
+//        }
     
         /**
      * Draws the background with a RadialGradient 
