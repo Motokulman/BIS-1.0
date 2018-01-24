@@ -46,6 +46,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import myclasses.Aperture;
+import myclasses.ApertureInnerInsulatedBearingWalls;
+import myclasses.ApertureInnerNonBearingWalls;
+import myclasses.ApertureInnerNonInsulatedBearingWalls;
+import myclasses.AperturePartition;
 
 
 /**
@@ -54,14 +58,55 @@ import myclasses.Aperture;
  */
 public class EstimateCalculator extends Application {
     
+    // Таблица проемов для фасадных стен
     private final  TableView<Aperture> tableViewAperture = new TableView<>();
      private final ObservableList<Aperture> data =
             FXCollections.observableArrayList(
             new Aperture(1, 2),
-            new Aperture(4, 5),
-            new Aperture(7, 8),
+            new Aperture(1, 4),
+            new Aperture(1, 3),
             new Aperture(1, 2),
-            new Aperture(3, 4));
+            new Aperture(1, 4));
+    
+    // Таблица проемов для внутренних теплых стен
+    private final  TableView<ApertureInnerInsulatedBearingWalls> tableViewApertureInnerInsulatedBearingWalls = new TableView<>();
+     private final ObservableList<ApertureInnerInsulatedBearingWalls> dataApertureInnerInsulatedBearingWalls =
+            FXCollections.observableArrayList(
+            new ApertureInnerInsulatedBearingWalls(2, 2),
+            new ApertureInnerInsulatedBearingWalls(2, 5),
+            new ApertureInnerInsulatedBearingWalls(2, 8),
+            new ApertureInnerInsulatedBearingWalls(2, 2),
+            new ApertureInnerInsulatedBearingWalls(2, 4));
+    
+    // Таблица проемов для внутренних несущих, не утепленных стен
+    private final  TableView<ApertureInnerNonInsulatedBearingWalls> tableViewApertureInnerNonInsulatedBearingWalls = new TableView<>();
+     private final ObservableList<ApertureInnerNonInsulatedBearingWalls> dataApertureInnerNonInsulatedBearingWalls =
+            FXCollections.observableArrayList(
+            new ApertureInnerNonInsulatedBearingWalls(3, 2),
+            new ApertureInnerNonInsulatedBearingWalls(3, 5),
+            new ApertureInnerNonInsulatedBearingWalls(3, 8),
+            new ApertureInnerNonInsulatedBearingWalls(3, 2),
+            new ApertureInnerNonInsulatedBearingWalls(3, 4));
+    
+    // Таблица проемов для внутренних ненесущих, но толстых стен
+    private final  TableView<ApertureInnerNonBearingWalls> tableViewApertureInnerNonBearingWalls = new TableView<>();
+     private final ObservableList<ApertureInnerNonBearingWalls> dataApertureInnerNonBearingWalls =
+            FXCollections.observableArrayList(
+            new ApertureInnerNonBearingWalls(4, 2),
+            new ApertureInnerNonBearingWalls(4, 5),
+            new ApertureInnerNonBearingWalls(4, 8),
+            new ApertureInnerNonBearingWalls(4, 2),
+            new ApertureInnerNonBearingWalls(4, 4));  
+     
+    // Таблица проемов для перегородок
+    private final  TableView<AperturePartition> tableViewAperturePartition = new TableView<>();
+     private final ObservableList<AperturePartition> dataAperturePartition =
+            FXCollections.observableArrayList(
+            new AperturePartition(5, 2),
+            new AperturePartition(5, 5),
+            new AperturePartition(5, 8),
+            new AperturePartition(5, 2),
+            new AperturePartition(5, 4));
     
     public static void main(String[] args) {
         launch(EstimateCalculator.class, args);
@@ -197,12 +242,18 @@ public class EstimateCalculator extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setMinSize(400, 300);
         
-        Tab tab1 = new Tab();
-        tab1.setText("Несущие стены");
+        Tab tabFasadeWalls = new Tab("Наружные стены");
+        Tab tabInnerInsulatedBearingWalls = new Tab("Тёплые стены");
+        Tab tabInnerNonInsulatedBearingWalls = new Tab("Несущие стены");
+        Tab tabInnerNonBearingWalls = new Tab("Ненесущие стены");
+        Tab tabPartition = new Tab("Перегородки");
+        Tab tabVentilationChannel = new Tab("Вентканалы");
       //  tab1.setContent(new Rectangle(300,150, Color.LIGHTSTEELBLUE));
+        tabPane.getTabs().addAll(tabFasadeWalls, tabInnerInsulatedBearingWalls, tabInnerNonInsulatedBearingWalls, tabInnerNonBearingWalls, tabPartition, tabVentilationChannel);
+
         
       
-        // Панель для отрисовки таблицы с этажами
+        // Панель для отрисовки таблицы на вкладке "Наружные стены"
         GridPane tab1GridPane = new GridPane();
         tab1GridPane.setHgap(10);
         tab1GridPane.setVgap(10);
@@ -358,21 +409,13 @@ public class EstimateCalculator extends Application {
             textFieldAddWidth.clear();
             textFieldAddHeight.clear();
         });
-
         
         tab1GridPane.add(tableViewAperture, 4, 1, 3, 7);
         tab1GridPane.add(textFieldAddWidth, 4, 8);
         tab1GridPane.add(textFieldAddHeight, 5, 8);
         tab1GridPane.add(addApertureButton, 6, 8);
 
-
-        tab1.setContent(tab1GridPane);
-        
-        Tab tab2 = new Tab();
-        tab2.setText("2 tab");
-        tab2.setContent(new Rectangle(200,200, Color.LIGHTSTEELBLUE));
-        
-        tabPane.getTabs().addAll(tab1, tab2);
+        tabFasadeWalls.setContent(tab1GridPane);
         
         /*
         * Дальнейший закоментированный текст это код редактора схемы - канва с линиями и полями числовых значений
@@ -415,10 +458,269 @@ public class EstimateCalculator extends Application {
 //        // Add the Canvas to the Scene, and show the Stage
 //        root.getChildren().add(canvas);
 //        grid.add(root, 1, 0); 
+        
+//Вторая вкладка с внутренними, но теплыми стенами
+        // Панель для отрисовки
+        GridPane gridPaneInnerInsulatedBearingWalls = new GridPane();
+        gridPaneInnerInsulatedBearingWalls.setHgap(10);
+        gridPaneInnerInsulatedBearingWalls.setVgap(10);
+        gridPaneInnerInsulatedBearingWalls.setPadding(new Insets(25, 25, 25, 25));
+        gridPaneInnerInsulatedBearingWalls.setGridLinesVisible(true);
+        
+        gridPaneInnerInsulatedBearingWalls.add(new Text("Несущие стены, например, между гаражом и домом, требующие утепления, но не требующие фасадной облицовки"), 0, 9, 7, 1);
+        gridPaneInnerInsulatedBearingWalls.add(new Text("Площадь"), 0, 1, 2, 1);
+        // Поле для ввода площади стен
+        TextField textInnerInsulatedBearingWalls = new TextField();
+        textInnerInsulatedBearingWalls.setPrefWidth(50);
+        gridPaneInnerInsulatedBearingWalls.add(textInnerInsulatedBearingWalls, 2, 1);       
+        
+        // Проемы во внутренних несущих теплых стенах
+        Label labelApertureInnerInsulatedBearingWalls = new Label("Проемы");
+       // labelAperture.setFont(new Font("Arial", 20));
+        gridPaneInnerInsulatedBearingWalls.add(labelApertureInnerInsulatedBearingWalls, 4, 1, 2, 1);
+             
+        tableViewApertureInnerInsulatedBearingWalls.setEditable(true);
+        tableViewApertureInnerInsulatedBearingWalls.setPrefHeight(100);
+       
+        TableColumn tableColumnNumberInnerInsulatedBearingWalls = new TableColumn("№");
+        tableColumnNumberInnerInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Number"));
+        
+        TableColumn tableColumnWidthInnerInsulatedBearingWalls = new TableColumn("Ширина");
+        tableColumnWidthInnerInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Width"));
+        
+        TableColumn tableColumnHeightInnerInsulatedBearingWalls = new TableColumn("Высота");
+        tableColumnHeightInnerInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Height"));
+        
+        TableColumn tableColumnAreaInnerInsulatedBearingWalls = new TableColumn("Площадь");    
+        tableColumnAreaInnerInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Area"));
+        
+         tableViewApertureInnerInsulatedBearingWalls.setItems(dataApertureInnerInsulatedBearingWalls);
+         tableViewApertureInnerInsulatedBearingWalls.getColumns().addAll(tableColumnNumberInnerInsulatedBearingWalls, tableColumnWidthInnerInsulatedBearingWalls, tableColumnHeightInnerInsulatedBearingWalls, tableColumnAreaInnerInsulatedBearingWalls);
+        
+        // добавление полей для ввода новых значений и кнопки
+        final TextField textFieldAddWidthInnerInsulatedBearingWalls = new TextField();
+        textFieldAddWidthInnerInsulatedBearingWalls.setPromptText("Ширина");
+        textFieldAddWidthInnerInsulatedBearingWalls.setPrefWidth(50);
+       // addFirstName.setMaxWidth(tableColumnWidth.getPrefWidth());
+        final TextField textFieldAddHeightInnerInsulatedBearingWalls = new TextField();
+        textFieldAddHeightInnerInsulatedBearingWalls.setPrefWidth(50);
+     //  addHeight.setMaxWidth(lastNameCol.getPrefWidth());
+        textFieldAddHeightInnerInsulatedBearingWalls.setPromptText("Высота");
+ 
+        final Button addApertureButtonInnerInsulatedBearingWalls = new Button("Add");
+        addApertureButtonInnerInsulatedBearingWalls.setOnAction((ActionEvent e) -> {
+            dataApertureInnerInsulatedBearingWalls.add(new ApertureInnerInsulatedBearingWalls(
+                    new Double(textFieldAddWidthInnerInsulatedBearingWalls.getText()),
+                    new Double(textFieldAddHeightInnerInsulatedBearingWalls.getText())));
+            System.out.println( new Double(textFieldAddWidthInnerInsulatedBearingWalls.getText()));
+            textFieldAddWidthInnerInsulatedBearingWalls.clear();
+            textFieldAddHeightInnerInsulatedBearingWalls.clear();
+        });
+        
+        gridPaneInnerInsulatedBearingWalls.add(tableViewApertureInnerInsulatedBearingWalls, 4, 1, 3, 7);
+        gridPaneInnerInsulatedBearingWalls.add(textFieldAddWidthInnerInsulatedBearingWalls, 4, 8);
+        gridPaneInnerInsulatedBearingWalls.add(textFieldAddHeightInnerInsulatedBearingWalls, 5, 8);
+        gridPaneInnerInsulatedBearingWalls.add(addApertureButtonInnerInsulatedBearingWalls, 6, 8);
+
+        tabInnerInsulatedBearingWalls.setContent(gridPaneInnerInsulatedBearingWalls);
+
+//Третья вкладка с несущими стенами
+        // Панель для отрисовки
+        GridPane gridPaneInnerNonInsulatedBearingWalls = new GridPane();
+        gridPaneInnerNonInsulatedBearingWalls.setHgap(10);
+        gridPaneInnerNonInsulatedBearingWalls.setVgap(10);
+        gridPaneInnerNonInsulatedBearingWalls.setPadding(new Insets(25, 25, 25, 25));
+        gridPaneInnerNonInsulatedBearingWalls.setGridLinesVisible(true);
+        
+        gridPaneInnerInsulatedBearingWalls.add(new Text("Несущие внутренние не утепленные стены"), 0, 9, 7, 1);
+        gridPaneInnerNonInsulatedBearingWalls.add(new Text("Площадь"), 0, 1, 2, 1);
+        // Поле для ввода площади стен
+        TextField textInnerNonInsulatedBearingWalls = new TextField();
+        textInnerNonInsulatedBearingWalls.setPrefWidth(50);
+        gridPaneInnerNonInsulatedBearingWalls.add(textInnerNonInsulatedBearingWalls, 2, 1);       
+        
+        // Проемы во внутренних несущих теплых стенах
+        Label labelApertureInnerNonInsulatedBearingWalls = new Label("Проемы");
+       // labelAperture.setFont(new Font("Arial", 20));
+        gridPaneInnerNonInsulatedBearingWalls.add(labelApertureInnerNonInsulatedBearingWalls, 4, 1, 2, 1);
+             
+        tableViewApertureInnerNonInsulatedBearingWalls.setEditable(true);
+        tableViewApertureInnerNonInsulatedBearingWalls.setPrefHeight(100);
+       
+        TableColumn tableColumnNumberInnerNonInsulatedBearingWalls = new TableColumn("№");
+        tableColumnNumberInnerNonInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Number"));
+        
+        TableColumn tableColumnWidthInnerNonInsulatedBearingWalls = new TableColumn("Ширина");
+        tableColumnWidthInnerNonInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Width"));
+        
+        TableColumn tableColumnHeightInnerNonInsulatedBearingWalls = new TableColumn("Высота");
+        tableColumnHeightInnerNonInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Height"));
+        
+        TableColumn tableColumnAreaInnerNonInsulatedBearingWalls = new TableColumn("Площадь");    
+        tableColumnAreaInnerNonInsulatedBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Area"));
+        
+         tableViewApertureInnerNonInsulatedBearingWalls.setItems(dataApertureInnerNonInsulatedBearingWalls);
+         tableViewApertureInnerNonInsulatedBearingWalls.getColumns().addAll(tableColumnNumberInnerNonInsulatedBearingWalls, tableColumnWidthInnerNonInsulatedBearingWalls, tableColumnHeightInnerNonInsulatedBearingWalls, tableColumnAreaInnerNonInsulatedBearingWalls);
+        
+        // добавление полей для ввода новых значений и кнопки
+        final TextField textFieldAddWidthInnerNonInsulatedBearingWalls = new TextField();
+        textFieldAddWidthInnerNonInsulatedBearingWalls.setPromptText("Ширина");
+        textFieldAddWidthInnerNonInsulatedBearingWalls.setPrefWidth(50);
+       // addFirstName.setMaxWidth(tableColumnWidth.getPrefWidth());
+        final TextField textFieldAddHeightInnerNonInsulatedBearingWalls = new TextField();
+        textFieldAddHeightInnerNonInsulatedBearingWalls.setPrefWidth(50);
+     //  addHeight.setMaxWidth(lastNameCol.getPrefWidth());
+        textFieldAddHeightInnerNonInsulatedBearingWalls.setPromptText("Высота");
+ 
+        final Button addApertureButtonInnerNonInsulatedBearingWalls = new Button("Add");
+        addApertureButtonInnerNonInsulatedBearingWalls.setOnAction((ActionEvent e) -> {
+            dataApertureInnerNonInsulatedBearingWalls.add(new ApertureInnerNonInsulatedBearingWalls(
+                    new Double(textFieldAddWidthInnerNonInsulatedBearingWalls.getText()),
+                    new Double(textFieldAddHeightInnerNonInsulatedBearingWalls.getText())));
+            System.out.println( new Double(textFieldAddWidthInnerNonInsulatedBearingWalls.getText()));
+            textFieldAddWidthInnerNonInsulatedBearingWalls.clear();
+            textFieldAddHeightInnerNonInsulatedBearingWalls.clear();
+        });
+        
+        gridPaneInnerNonInsulatedBearingWalls.add(tableViewApertureInnerNonInsulatedBearingWalls, 4, 1, 3, 7);
+        gridPaneInnerNonInsulatedBearingWalls.add(textFieldAddWidthInnerNonInsulatedBearingWalls, 4, 8);
+        gridPaneInnerNonInsulatedBearingWalls.add(textFieldAddHeightInnerNonInsulatedBearingWalls, 5, 8);
+        gridPaneInnerNonInsulatedBearingWalls.add(addApertureButtonInnerNonInsulatedBearingWalls, 6, 8);
+
+        tabInnerNonInsulatedBearingWalls.setContent(gridPaneInnerNonInsulatedBearingWalls);
+
+        //Четвертая вкладка с ненесущими, но толстыми стенами
+        // Панель для отрисовки
+        GridPane gridPaneInnerNonBearingWalls = new GridPane();
+        gridPaneInnerNonBearingWalls.setHgap(10);
+        gridPaneInnerNonBearingWalls.setVgap(10);
+        gridPaneInnerNonBearingWalls.setPadding(new Insets(25, 25, 25, 25));
+        gridPaneInnerNonBearingWalls.setGridLinesVisible(true);
+        
+        gridPaneInnerNonBearingWalls.add(new Text("Внутренние ненесущие стены. Как перегородки, но толстые. Проверть по статистике, нужны ли"), 0, 9, 7, 1);
+        gridPaneInnerNonBearingWalls.add(new Text("Площадь"), 0, 1, 2, 1);
+        // Поле для ввода площади стен
+        TextField textInnerNonBearingWalls = new TextField();
+        textInnerNonBearingWalls.setPrefWidth(50);
+        gridPaneInnerNonBearingWalls.add(textInnerNonBearingWalls, 2, 1);       
+        
+        // Проемы во внутренних несущих теплых стенах
+        Label labelApertureInnerNonBearingWalls = new Label("Проемы");
+       // labelAperture.setFont(new Font("Arial", 20));
+        gridPaneInnerNonBearingWalls.add(labelApertureInnerNonBearingWalls, 4, 1, 2, 1);
+             
+        tableViewApertureInnerNonBearingWalls.setEditable(true);
+        tableViewApertureInnerNonBearingWalls.setPrefHeight(100);
+       
+        TableColumn tableColumnNumberInnerNonBearingWalls = new TableColumn("№");
+        tableColumnNumberInnerNonBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Number"));
+        
+        TableColumn tableColumnWidthInnerNonBearingWalls = new TableColumn("Ширина");
+        tableColumnWidthInnerNonBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Width"));
+        
+        TableColumn tableColumnHeightInnerNonBearingWalls = new TableColumn("Высота");
+        tableColumnHeightInnerNonBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Height"));
+        
+        TableColumn tableColumnAreaInnerNonBearingWalls = new TableColumn("Площадь");    
+        tableColumnAreaInnerNonBearingWalls.setCellValueFactory(new PropertyValueFactory<>("Area"));
+        
+         tableViewApertureInnerNonBearingWalls.setItems(dataApertureInnerNonBearingWalls);
+         tableViewApertureInnerNonBearingWalls.getColumns().addAll(tableColumnNumberInnerNonBearingWalls, tableColumnWidthInnerNonBearingWalls, tableColumnHeightInnerNonBearingWalls, tableColumnAreaInnerNonBearingWalls);
+        
+        // добавление полей для ввода новых значений и кнопки
+        final TextField textFieldAddWidthInnerNonBearingWalls = new TextField();
+        textFieldAddWidthInnerNonBearingWalls.setPromptText("Ширина");
+        textFieldAddWidthInnerNonBearingWalls.setPrefWidth(50);
+       // addFirstName.setMaxWidth(tableColumnWidth.getPrefWidth());
+        final TextField textFieldAddHeightInnerNonBearingWalls = new TextField();
+        textFieldAddHeightInnerNonBearingWalls.setPrefWidth(50);
+     //  addHeight.setMaxWidth(lastNameCol.getPrefWidth());
+        textFieldAddHeightInnerNonBearingWalls.setPromptText("Высота");
+ 
+        final Button addApertureButtonInnerNonBearingWalls = new Button("Add");
+        addApertureButtonInnerNonBearingWalls.setOnAction((ActionEvent e) -> {
+            dataApertureInnerNonBearingWalls.add(new ApertureInnerNonBearingWalls(
+                    new Double(textFieldAddWidthInnerNonBearingWalls.getText()),
+                    new Double(textFieldAddHeightInnerNonBearingWalls.getText())));
+            System.out.println( new Double(textFieldAddWidthInnerNonBearingWalls.getText()));
+            textFieldAddWidthInnerNonBearingWalls.clear();
+            textFieldAddHeightInnerNonBearingWalls.clear();
+        });
+        
+        gridPaneInnerNonBearingWalls.add(tableViewApertureInnerNonBearingWalls, 4, 1, 3, 7);
+        gridPaneInnerNonBearingWalls.add(textFieldAddWidthInnerNonBearingWalls, 4, 8);
+        gridPaneInnerNonBearingWalls.add(textFieldAddHeightInnerNonBearingWalls, 5, 8);
+        gridPaneInnerNonBearingWalls.add(addApertureButtonInnerNonBearingWalls, 6, 8);
+
+        tabInnerNonBearingWalls.setContent(gridPaneInnerNonBearingWalls);        
+
+        //Пятая вкладка с перегородками
+        // Панель для отрисовки
+        GridPane gridPanePartition = new GridPane();
+        gridPanePartition.setHgap(10);
+        gridPanePartition.setVgap(10);
+        gridPanePartition.setPadding(new Insets(25, 25, 25, 25));
+        gridPanePartition.setGridLinesVisible(true);
+        
+        gridPanePartition.add(new Text("Перегородки в полкирпича или из гипсокартона"), 0, 9, 7, 1);
+        gridPanePartition.add(new Text("Площадь"), 0, 1, 2, 1);
+        // Поле для ввода площади стен
+        TextField textPartition = new TextField();
+        textPartition.setPrefWidth(50);
+        gridPanePartition.add(textPartition, 2, 1);       
+        
+        // Проемы во внутренних несущих теплых стенах
+        Label labelAperturePartition = new Label("Проемы");
+        gridPanePartition.add(labelAperturePartition, 4, 1, 2, 1);
+             
+        tableViewAperturePartition.setEditable(true);
+        tableViewAperturePartition.setPrefHeight(100);
+       
+        TableColumn tableColumnNumberPartition = new TableColumn("№");
+        tableColumnNumberPartition.setCellValueFactory(new PropertyValueFactory<>("Number"));
+        
+        TableColumn tableColumnWidthPartition = new TableColumn("Ширина");
+        tableColumnWidthPartition.setCellValueFactory(new PropertyValueFactory<>("Width"));
+        
+        TableColumn tableColumnHeightPartition = new TableColumn("Высота");
+        tableColumnHeightPartition.setCellValueFactory(new PropertyValueFactory<>("Height"));
+        
+        TableColumn tableColumnAreaPartition = new TableColumn("Площадь");    
+        tableColumnAreaPartition.setCellValueFactory(new PropertyValueFactory<>("Area"));
+        
+         tableViewAperturePartition.setItems(dataAperturePartition);
+         tableViewAperturePartition.getColumns().addAll(tableColumnNumberPartition, tableColumnWidthPartition, tableColumnHeightPartition, tableColumnAreaPartition);
+        
+        // добавление полей для ввода новых значений и кнопки
+        final TextField textFieldAddWidthPartition = new TextField();
+        textFieldAddWidthPartition.setPromptText("Ширина");
+        textFieldAddWidthPartition.setPrefWidth(50);
+        final TextField textFieldAddHeightPartition = new TextField();
+        textFieldAddHeightPartition.setPrefWidth(50);
+        textFieldAddHeightPartition.setPromptText("Высота");
+ 
+        final Button addApertureButtonPartition = new Button("Add");
+        addApertureButtonPartition.setOnAction((ActionEvent e) -> {
+            dataAperturePartition.add(new AperturePartition(
+                    new Double(textFieldAddWidthPartition.getText()),
+                    new Double(textFieldAddHeightPartition.getText())));
+            System.out.println( new Double(textFieldAddWidthPartition.getText()));
+            textFieldAddWidthPartition.clear();
+            textFieldAddHeightPartition.clear();
+        });
+        
+        gridPanePartition.add(tableViewAperturePartition, 4, 1, 3, 7);
+        gridPanePartition.add(textFieldAddWidthPartition, 4, 8);
+        gridPanePartition.add(textFieldAddHeightPartition, 5, 8);
+        gridPanePartition.add(addApertureButtonPartition, 6, 8);
+
+        tabPartition.setContent(gridPanePartition);
+        
+
         grid.setGridLinesVisible(true);
         grid.add(tabPane, 0, 0); 
-        return grid;
-    }
+        return grid;        
+}
 
 /*
  * Creates a horizontal flow pane with eight icons in four rows
