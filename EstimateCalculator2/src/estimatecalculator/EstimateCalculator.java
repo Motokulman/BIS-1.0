@@ -13,13 +13,17 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,7 +45,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import myclasses.Fronton;
+import myclasses.Aperture;
 
 
 /**
@@ -50,14 +54,14 @@ import myclasses.Fronton;
  */
 public class EstimateCalculator extends Application {
     
-    private final  TableView<Fronton> tableViewFronton = new TableView<>();
-     private final ObservableList<Fronton> data =
+    private final  TableView<Aperture> tableViewAperture = new TableView<>();
+     private final ObservableList<Aperture> data =
             FXCollections.observableArrayList(
-            new Fronton(1, 2),
-            new Fronton(4, 5),
-            new Fronton(7, 8),
-            new Fronton(1, 2),
-            new Fronton(3, 4));
+            new Aperture(1, 2),
+            new Aperture(4, 5),
+            new Aperture(7, 8),
+            new Aperture(1, 2),
+            new Aperture(3, 4));
     
     public static void main(String[] args) {
         launch(EstimateCalculator.class, args);
@@ -205,62 +209,120 @@ public class EstimateCalculator extends Application {
         tab1GridPane.setPadding(new Insets(25, 25, 25, 25));
         tab1GridPane.setGridLinesVisible(true);
         
-      //  Text scenetitle = new Text("WelcomeWelcomeWelcome");
-       // scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        tab1GridPane.add(new Text("Этажи"), 0, 0, 2, 1);
-        tab1GridPane.add(new Text("Длина"), 1, 1);
-        tab1GridPane.add(new Text("Высота"), 2, 1);
-        tab1GridPane.add(new Text("Площадь"), 3, 1);
+        tab1GridPane.add(new Text("Площадь"), 0, 0, 2, 1);
+        // Поле для ввода площади стен
+        TextField textFieldFasadeWallsArea = new TextField();
+        textFieldFasadeWallsArea.setPrefWidth(50);
+        tab1GridPane.add(textFieldFasadeWallsArea, 2, 0);       
+        
+        // Чекбоксы для выбора материалов стен 
+        CheckBox checkBoxKeramzitoblockFasadeWalls = new CheckBox("Керамзитоблок");
+        checkBoxKeramzitoblockFasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBoxKeramzitoblockFasadeWalls, 1, 1, 2, 1); 
+        
+        CheckBox checkBox2NFFasadeWalls = new CheckBox("Камень 2,1НФ");
+        checkBox2NFFasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBox2NFFasadeWalls, 1, 2, 2, 1); 
+        
+        CheckBox checkBoxPorotherm44FasadeWalls = new CheckBox("Porotherm 44");
+        checkBoxPorotherm44FasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBoxPorotherm44FasadeWalls, 1, 3, 2, 1); 
+        
+        CheckBox checkBoxPorotherm51FasadeWalls = new CheckBox("Porotherm 51");
+        checkBoxPorotherm51FasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBoxPorotherm51FasadeWalls, 1, 4, 2, 1); 
+        
+        CheckBox checkBoxGazobetonFasadeWalls = new CheckBox("Газобетон");
+        checkBoxGazobetonFasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBoxGazobetonFasadeWalls, 1, 5, 2, 1); 
+        
+        CheckBox checkBoxBrickFasadeWalls = new CheckBox("Кирпич полнотелый");
+        checkBoxBrickFasadeWalls.setSelected(true);
+        tab1GridPane.add(checkBoxBrickFasadeWalls, 1, 6, 2, 1); 
+        
+        CheckBox checkBoxArbolitFasadeWalls = new CheckBox("Арболит");
+        checkBoxArbolitFasadeWalls.setSelected(false);
+        tab1GridPane.add(checkBoxArbolitFasadeWalls, 1, 7, 2, 1); 
 
-      //  Label userName = new Label("User Name:");
-        tab1GridPane.add(new Label("1"), 0, 2);
-        tab1GridPane.add(new Label("2"), 0, 3);
-        tab1GridPane.add(new Label("3"), 0, 4);
+        // Раюиобаттоны для выбора основного материала, по которому расчет идет первым
+        final ToggleGroup toggleGroupPrimaryMatherial = new ToggleGroup();// Создаем группу радиобаттонов
+        
+        // Собственно радиобаттоны
+        RadioButton radioButtonKeramzitoblockFasadeWalls = new RadioButton();
+        radioButtonKeramzitoblockFasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonKeramzitoblockFasadeWalls, 0, 1);
+        radioButtonKeramzitoblockFasadeWalls.setSelected(true);
 
-        // Поля для ввода длины стен
-        TextField textFieldWallsWidth1Floor = new TextField();
-        textFieldWallsWidth1Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsWidth1Floor, 1, 2);
-        TextField textFieldWallsWidth2Floor = new TextField();
-        textFieldWallsWidth2Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsWidth2Floor, 1, 3);
-        TextField textFieldWallsWidth3Floor = new TextField();
-        textFieldWallsWidth3Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsWidth3Floor, 1, 4);
-        // Поля для ввода высоты стен
-        TextField textFieldWallsHeight1Floor = new TextField();
-        textFieldWallsHeight1Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsHeight1Floor, 2, 2);
-        TextField textFieldWallsHeight2Floor = new TextField();
-        textFieldWallsHeight2Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsHeight2Floor, 2, 3);
-        TextField textFieldWallsHeight3Floor = new TextField();
-        textFieldWallsHeight3Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsHeight3Floor, 2, 4);
-        // Поля для ввода площади стен
-        TextField textFieldWallsArea1Floor = new TextField();
-        textFieldWallsArea1Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsArea1Floor, 3, 2);
-        TextField textFieldWallsArea2Floor = new TextField();
-        textFieldWallsArea2Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsArea2Floor, 3, 3);
-        TextField textFieldWallsArea3Floor = new TextField();
-        textFieldWallsArea3Floor.setPrefWidth(50);
-        tab1GridPane.add(textFieldWallsArea3Floor, 3, 4);
+        RadioButton radioButton2NFFasadeWalls = new RadioButton();
+        radioButton2NFFasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButton2NFFasadeWalls, 0, 2);
+
+        RadioButton radioButtonPorotherm44FasadeWalls = new RadioButton();
+        radioButtonPorotherm44FasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonPorotherm44FasadeWalls, 0, 3);
+
+        RadioButton radioButtonPorotherm51FasadeWalls = new RadioButton();
+        radioButtonPorotherm51FasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonPorotherm51FasadeWalls, 0, 4);
+
+        RadioButton radioButtonGazobetonFasadeWalls = new RadioButton();
+        radioButtonGazobetonFasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonGazobetonFasadeWalls, 0, 5);
+
+        RadioButton radioButtonBrickFasadeWalls = new RadioButton();
+        radioButtonBrickFasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonBrickFasadeWalls, 0, 6);
+
+        RadioButton radioButtonArbolitFasadeWalls = new RadioButton();
+        radioButtonArbolitFasadeWalls.setToggleGroup(toggleGroupPrimaryMatherial);
+        tab1GridPane.add(radioButtonArbolitFasadeWalls, 0, 7);
         
-        // Фронтоны
-        Label labelFronton = new Label("Фронтоны");
-        labelFronton.setFont(new Font("Arial", 20));
-        tab1GridPane.add(labelFronton, 4, 0, 2, 1);
+        // Толщины стен
+        final ChoiceBox choiceBoxKeramzitoblockFasadeWallsThickness = new ChoiceBox();
+        choiceBoxKeramzitoblockFasadeWallsThickness.getItems().addAll("1", "1,5", "2");
+        choiceBoxKeramzitoblockFasadeWallsThickness.getSelectionModel().select(1);
+        tab1GridPane.add(choiceBoxKeramzitoblockFasadeWallsThickness, 3, 1);
         
-       // TableView tableViewFronton = new TableView();
+        final ChoiceBox choiceBox2NFFasadeWallsThickness = new ChoiceBox();
+        choiceBox2NFFasadeWallsThickness.getItems().addAll("1,5", "2", "2,5", "3");
+        choiceBox2NFFasadeWallsThickness.getSelectionModel().select(1);
+        tab1GridPane.add(choiceBox2NFFasadeWallsThickness, 3, 2);
         
-//        TableView<Fronton> tableViewFronton = new TableView<>();
-//        ObservableList<Fronton> data = FXCollections.observableArrayList(new Fronton(1.0, 2.0));
+        final ChoiceBox choiceBoxPorotherm44FasadeWallsThickness = new ChoiceBox();
+        choiceBoxPorotherm44FasadeWallsThickness.getItems().addAll("1");
+        choiceBoxPorotherm44FasadeWallsThickness.getSelectionModel().select(0);
+        tab1GridPane.add(choiceBoxPorotherm44FasadeWallsThickness, 3, 3);
         
-        tableViewFronton.setEditable(true);
-        tableViewFronton.setPrefHeight(100);
+        final ChoiceBox choiceBoxPorotherm51FasadeWallsThickness = new ChoiceBox();
+        choiceBoxPorotherm51FasadeWallsThickness.getItems().addAll("1");
+        choiceBoxPorotherm51FasadeWallsThickness.getSelectionModel().select(0);
+        tab1GridPane.add(choiceBoxPorotherm51FasadeWallsThickness, 3, 4);
         
+        final ChoiceBox choiceBoxGazobetonFasadeWallsThickness = new ChoiceBox();
+        choiceBoxGazobetonFasadeWallsThickness.getItems().addAll("300", "400", "625");
+        choiceBoxGazobetonFasadeWallsThickness.getSelectionModel().select(1);
+        tab1GridPane.add(choiceBoxGazobetonFasadeWallsThickness, 3, 5);
+        
+        final ChoiceBox choiceBoxBrickFasadeWallsThickness = new ChoiceBox();
+        choiceBoxBrickFasadeWallsThickness.getItems().addAll("1,5", "2", "2,5", "3");
+        choiceBoxBrickFasadeWallsThickness.getSelectionModel().select(1);
+        tab1GridPane.add(choiceBoxBrickFasadeWallsThickness, 3, 6);
+        
+        final ChoiceBox choiceBoxArbolitFasadeWallsThickness = new ChoiceBox();
+        choiceBoxArbolitFasadeWallsThickness.getItems().addAll("300", "400", "500");
+        choiceBoxArbolitFasadeWallsThickness.getSelectionModel().select(1);
+        tab1GridPane.add(choiceBoxArbolitFasadeWallsThickness, 3, 7);
+        
+
+      
+        // Проемы
+        Label labelAperture = new Label("Проемы");
+       // labelAperture.setFont(new Font("Arial", 20));
+        tab1GridPane.add(labelAperture, 4, 0, 2, 1);
+             
+        tableViewAperture.setEditable(true);
+        tableViewAperture.setPrefHeight(100);
+       
         TableColumn tableColumnNumber = new TableColumn("№");
         tableColumnNumber.setCellValueFactory(new PropertyValueFactory<>("Number"));
         
@@ -273,35 +335,35 @@ public class EstimateCalculator extends Application {
         TableColumn tableColumnArea = new TableColumn("Площадь");    
         tableColumnArea.setCellValueFactory(new PropertyValueFactory<>("Area"));
         
-         tableViewFronton.setItems(data);
-         tableViewFronton.getColumns().addAll(tableColumnNumber, tableColumnWidth, tableColumnHeight, tableColumnArea);
+         tableViewAperture.setItems(data);
+         tableViewAperture.getColumns().addAll(tableColumnNumber, tableColumnWidth, tableColumnHeight, tableColumnArea);
         
         // добавление полей для ввода новых значений и кнопки
-        final TextField addWidth = new TextField();
-        addWidth.setPromptText("Ширина");
-        addWidth.setPrefWidth(50);
+        final TextField textFieldAddWidth = new TextField();
+        textFieldAddWidth.setPromptText("Ширина");
+        textFieldAddWidth.setPrefWidth(50);
        // addFirstName.setMaxWidth(tableColumnWidth.getPrefWidth());
-        final TextField addHeight = new TextField();
-        addHeight.setPrefWidth(50);
+        final TextField textFieldAddHeight = new TextField();
+        textFieldAddHeight.setPrefWidth(50);
      //  addHeight.setMaxWidth(lastNameCol.getPrefWidth());
-        addHeight.setPromptText("Высота");
+        textFieldAddHeight.setPromptText("Высота");
 
  
-        final Button addFrontonButton = new Button("Add");
-        addFrontonButton.setOnAction((ActionEvent e) -> {
-            data.add(new Fronton(
-                    new Double(addWidth.getText()),
-                    new Double(addHeight.getText())));
-            System.out.println( new Double(addWidth.getText()));
-            addWidth.clear();
-            addHeight.clear();
+        final Button addApertureButton = new Button("Add");
+        addApertureButton.setOnAction((ActionEvent e) -> {
+            data.add(new Aperture(
+                    new Double(textFieldAddWidth.getText()),
+                    new Double(textFieldAddHeight.getText())));
+            System.out.println( new Double(textFieldAddWidth.getText()));
+            textFieldAddWidth.clear();
+            textFieldAddHeight.clear();
         });
 
         
-        tab1GridPane.add(tableViewFronton, 4, 1, 3, 4);
-        tab1GridPane.add(addWidth, 4, 5);
-        tab1GridPane.add(addHeight, 5, 5);
-        tab1GridPane.add(addFrontonButton, 6, 5);
+        tab1GridPane.add(tableViewAperture, 4, 1, 3, 7);
+        tab1GridPane.add(textFieldAddWidth, 4, 8);
+        tab1GridPane.add(textFieldAddHeight, 5, 8);
+        tab1GridPane.add(addApertureButton, 6, 8);
 
 
         tab1.setContent(tab1GridPane);
