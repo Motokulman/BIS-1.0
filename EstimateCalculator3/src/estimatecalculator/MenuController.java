@@ -5,7 +5,6 @@
  */
 package estimatecalculator;
 
-import static estimatecalculator.EstimateCalculator.lastDir;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,17 +12,32 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -37,39 +51,52 @@ public class MenuController implements Initializable
   
   // Создание нового файла
   @FXML
-  private void handleCreateNewFile(final ActionEvent event) throws XMLStreamException
+  private void handleCreateNewFile(final ActionEvent event) throws XMLStreamException, IOException, ParserConfigurationException, SAXException, XPathExpressionException
   {
     provideCreateNewFile();
   }
   
   // Функции реализаций действий меню
-  private void provideCreateNewFile() throws XMLStreamException
+  private void provideCreateNewFile() throws XMLStreamException, IOException, ParserConfigurationException, SAXException, XPathExpressionException
   {
-    //Stage stage = new Stage();
-
-      
-    FileChooser fileChooser1 = new FileChooser();
-    fileChooser1.setTitle("Создать проект");
+    // Читаем файл настроек Config       
+    DocumentBuilderFactory factoryConfig = DocumentBuilderFactory.newInstance();
+    DocumentBuilder builderConfig = factoryConfig.newDocumentBuilder();
+    Document documentConfig = builderConfig.parse(new File("myConfig.xml"));
+    documentConfig.getDocumentElement().normalize();
+    // и получим из него путь последнего сохранения проекта
+    XPathFactory xPathFactory = XPathFactory.newInstance();
+    XPath xPath = xPathFactory.newXPath();
+    
+    FileChooser fileChooserCreate = new FileChooser();
+    fileChooserCreate.setTitle("Создать проект");
     
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Файл проекта XML", "*.xml");//Расширение
-    fileChooser1.getExtensionFilters().add(extFilter);
-    fileChooser1.setInitialDirectory(new File(lastDir));
-    File file = fileChooser1.showSaveDialog(stage);
-    
+    fileChooserCreate.getExtensionFilters().add(extFilter);
+    fileChooserCreate.setInitialDirectory(new File(xPath.evaluate("//root/lastDir/text()", documentConfig.getDocumentElement())));
+    File file = fileChooserCreate.showSaveDialog(stage);
+    // Создаем новый файл проекта
     if (file != null) {
         try {
-            XMLOutputFactory factory = XMLOutputFactory.newFactory();
-            XMLStreamWriter writer = factory.createXMLStreamWriter(new FileOutputStream(file));
-            writer.writeStartDocument();
-            writer.writeStartElement("root");
-            writer.writeEndElement();
-            writer.writeEndDocument();
+            XMLOutputFactory factoryCreate = XMLOutputFactory.newFactory();
+            XMLStreamWriter writerCreate = factoryCreate.createXMLStreamWriter(new FileOutputStream(file));
+            writerCreate.writeStartDocument();
+            writerCreate.writeStartElement("root");
+            writerCreate.writeEndElement();
+            writerCreate.writeEndDocument();
+            // Если файл создался, то запишем путь его сохранения в конфиг для того, чтобы в след. раз открыть ту же папку
+            NodeList languages  = documentConfig.getElementsByTagName("root");
+            Element lang = (Element) languages.item(0);
+            Node lastDir = lang.getElementsByTagName("lastDir").item(0).getFirstChild();
+            lastDir.setNodeValue(file.getParent());
+            // вызываем функцию записи
+            writeDocument(documentConfig);
              
         } catch (IOException ex) {
              System.out.println(ex.getMessage());
         }
     }
-  }
+ }
 
   /**
    * Handle action related to "About" menu item.
@@ -114,5 +141,19 @@ public class MenuController implements Initializable
  public void initialize(java.net.URL arg0, ResourceBundle arg1) {
    menuBar.setFocusTraversable(true);
    
- }   
+ } 
+ 
+     // Функция для сохранения DOM в файл
+    private static void writeDocument(Document document) throws TransformerFactoryConfigurationError {
+        try {
+            Transformer tr = TransformerFactory.newInstance().newTransformer();
+            DOMSource source = new DOMSource(document);
+            FileOutputStream fos = new FileOutputStream("myConfig.xml");
+            StreamResult result = new StreamResult(fos);
+            tr.transform(source, result);
+        } catch (TransformerException | IOException e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
 }

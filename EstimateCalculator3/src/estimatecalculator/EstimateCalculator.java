@@ -5,7 +5,6 @@
  */
 package estimatecalculator;
 
-import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,14 +13,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /**
@@ -30,23 +23,21 @@ import org.xml.sax.SAXException;
  */
 public class EstimateCalculator extends Application {
     
-    public static String lastDir = new String();
+  //  public static String lastDir = new String();
     
    public static void main(String[] arguments) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
    {
-       // Читаем файл настроек       
-       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-       DocumentBuilder builder = factory.newDocumentBuilder();
-       Document document = builder.parse(new File("myConfig.xml"));
-      
-       Element element = document.getDocumentElement();
-       System.out.println(element.getElementsByTagName("root"));
-       
-       // Получим путь последнего сохранения проекта
-       XPathFactory xpf = XPathFactory.newInstance();
-       XPath xp = xpf.newXPath();
-       lastDir = xp.evaluate("//root/lastDir/text()", document.getDocumentElement());
-      
+//       // Читаем файл настроек       
+//       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//       DocumentBuilder builder = factory.newDocumentBuilder();
+//       Document document = builder.parse(new File("myConfig.xml"));
+//      
+//    //   Element element = document.getDocumentElement();
+//       // Получим путь последнего сохранения проекта
+//       XPathFactory xPathFactory = XPathFactory.newInstance();
+//       XPath xPath = xPathFactory.newXPath();
+//       lastDir = xPath.evaluate("//root/lastDir/text()", document.getDocumentElement());
+        
        Application.launch(EstimateCalculator.class, arguments);
 
    }
