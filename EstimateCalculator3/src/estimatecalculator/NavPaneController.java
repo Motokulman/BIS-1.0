@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Control;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
@@ -43,5 +44,7 @@ public class NavPaneController implements Initializable {
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Наружные стены"));
         NavPaneTreeView.setRoot(root);
+        NavPaneTreeView.setPrefHeight(1000.0);
+        NavPaneTreeView.setMaxHeight(Control.USE_PREF_SIZE);
     }
 }

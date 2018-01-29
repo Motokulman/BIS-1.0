@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!--<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="estimatecalculator.PropertyPaneController">
+    <stylesheets>
+        <URL value="@fxmlpropertypane.css"/>
+    </stylesheets>
+</AnchorPane>-->
+
+<VBox id="propertyPaneVBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="estimatecalculator.PropertyPaneController" >
+
+    <Text id="welcome-text" text="Welcome"/>
+    <Label id="label"  text="Наружные стены"/>
+        
+  <stylesheets>
+    <URL value="@fxmlpropertypane.css" />
+  </stylesheets>
+</VBox>
