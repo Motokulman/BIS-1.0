@@ -42,9 +42,9 @@ public class NavPaneController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         TreeItem<String> root = new TreeItem<>("Стены");
         root.setExpanded(true);
-        root.getChildren().add(new TreeItem<>("Наружные стены"));
+        root.getChildren().add(new TreeItem<>("Базовая стена"));
         NavPaneTreeView.setRoot(root);
         NavPaneTreeView.setPrefHeight(1000.0);
-        NavPaneTreeView.setMaxHeight(Control.USE_PREF_SIZE);
+      //  NavPaneTreeView.setMaxHeight(Control.USE_PREF_SIZE);
     }
 }
