@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  */
 public class EstimateCalculator extends Application {
     
-  //  public static String lastDir = new String();
+  public static BorderPane border = new BorderPane();
     
    public static void main(String[] arguments) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
    {
@@ -46,30 +46,19 @@ public class EstimateCalculator extends Application {
    @Override
    public void start(final Stage stage) throws Exception
    {
-       BorderPane border = new BorderPane();
-       
        HBox hMenuBarBox = FXMLLoader.load(getClass().getResource("FXMLMenuBar.fxml"));
        border.setTop(hMenuBarBox);
        
        //VBox vLeftBox = FXMLLoader.load(getClass().getResource("FXMLNavPane.fxml"));
        border.setLeft(FXMLLoader.load(getClass().getResource("FXMLNavPane.fxml")));
  
-       border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/FXMLPropertyPane.fxml")));
-             
-//            Rectangle rect = new Rectangle(100,100); 
-//            rect.setLayoutX(150); 
-//            rect.setLayoutY(150); 
-//            rect.getStyleClass().add("my-rect"); 
-//            border.setCenter(rect);
+       border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/mainwall/FXMLPropertyPane.fxml")));
+      // border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/innerinsulatewall/InnerInsulateWallPropertyPane.fxml")));
         
        Scene scene = new Scene(border, 1400, 800); 
        scene.getStylesheets().add (EstimateCalculator.class.getResource("base.css").toExternalForm());
        stage.setTitle("Estimate Calculator");
        stage.setScene(scene);
-     //  scene.getStylesheets().add (EstimateCalculator.class.getResource("fxmlpropertypane.css").toExternalForm());
-     
-
-
        stage.show();
    }
 }

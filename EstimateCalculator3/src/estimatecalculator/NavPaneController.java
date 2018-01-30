@@ -5,13 +5,16 @@
  */
 package estimatecalculator;
 
+import static estimatecalculator.EstimateCalculator.border;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Control;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -21,30 +24,36 @@ import javafx.scene.control.TreeView;
 public class NavPaneController implements Initializable {
 
   @FXML private TreeView<String> NavPaneTreeView;
- 
-//  // the initialize method is automatically invoked by the FXMLLoader - it's magic
-//  public void initialize() {
-//    loadTreeItems("initial 1", "initial 2", "initial 3");
-//  }  
-//
-//  // loads some strings into the tree in the application UI.
-//  public void loadTreeItems(String... rootItems) {
-//    TreeItem<String> root = new TreeItem<String>("Root Node");
-//    root.setExpanded(true);
-//    for (String itemString: rootItems) {
-//      root.getChildren().add(new TreeItem<String>(itemString));
-//    }
-//
-//    navTreeView.setRoot(root);
-//  }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TreeItem<String> root = new TreeItem<>("Стены");
-        root.setExpanded(true);
-        root.getChildren().add(new TreeItem<>("Базовая стена"));
-        NavPaneTreeView.setRoot(root);
+        // Добавляем корневой узел. Сделать, чтобы он назывался как проект либо разобраться, как сделать чтоб его не было, а следующие узлы стали корневыми
+        TreeItem<String> projectTreeItem = new TreeItem<>("Наш проект");
+        projectTreeItem.setExpanded(true);
+        NavPaneTreeView.setRoot(projectTreeItem);
+        
+        TreeItem<String> wallsTreeItem = new TreeItem<>("Стены");
+        projectTreeItem.getChildren().add(wallsTreeItem);
+        wallsTreeItem.setExpanded(true);
+        
+        TreeItem<String> mainWallTreeItem = new TreeItem<>("Базовая стена");
+        wallsTreeItem.getChildren().add(mainWallTreeItem);
+        
+        TreeItem<String> innerInsulateWallTreeItem = new TreeItem<>("Внутренняя теплая стена");
+        wallsTreeItem.getChildren().add(innerInsulateWallTreeItem);
+        
         NavPaneTreeView.setPrefHeight(1000.0);
+        
       //  NavPaneTreeView.setMaxHeight(Control.USE_PREF_SIZE);
+    }
+    // Выбираем в левой панели нужные итемс и меняем центр панели
+    public void mouseTreeItemClick(MouseEvent mouseEvent) throws IOException {
+        switch (NavPaneTreeView.getSelectionModel().getSelectedIndex()) {
+            case 2: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/mainwall/FXMLPropertyPane.fxml")));
+                    break;
+            case 3: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/innerinsulatewall/InnerInsulateWallPropertyPane.fxml")));
+                    break;
+        }
+        
     }
 }
