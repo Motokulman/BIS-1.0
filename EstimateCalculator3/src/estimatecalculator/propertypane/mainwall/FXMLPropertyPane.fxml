@@ -177,6 +177,22 @@
                     </cellValueFactory>
                 </TableColumn>
             </columns>  
+            
+            <items>
+    <FXCollections fx:factory="observableArrayList">
+<!--        <Person firstName="Jacob" lastName="Smith"  
+             email="jacob.smith@example.com"/>
+        <Person firstName="Isabella" lastName="Johnson" 
+             email="isabella.johnson@example.com"/>
+        <Person firstName="Ethan" lastName="Williams" 
+             email="ethan.williams@example.com"/>
+        <Person firstName="Emma" lastName="Jones"
+             email="emma.jones@example.com"/>
+        <Person firstName="Michael" lastName="Brown" 
+             email="michael.brown@example.com"/>-->
+    </FXCollections>
+</items>
+            
         </TableView>
         <HBox spacing="10" alignment="bottom_right" GridPane.columnIndex="0" GridPane.rowIndex="2">
           <TextField fx:id="apertureNameField" promptText="Название" prefWidth="150"/>

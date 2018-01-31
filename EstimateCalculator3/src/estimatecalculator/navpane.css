@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 #NavPaneVBox {
-     	-fx-background-image: url("background.jpg");
+/*     	-fx-background-image: url("img/background.jpg");*/
         -fx-padding: 10;
 	-fx-border-style: solid inside;
 	-fx-border-width: 2;

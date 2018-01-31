@@ -6,6 +6,7 @@
 package estimatecalculator;
 
 import static estimatecalculator.EstimateCalculator.border;
+import estimatecalculator.propertypane.innerinsulatewall.InnerInsulateWallPropertyPaneController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,9 +43,11 @@ public class NavPaneController implements Initializable {
         TreeItem<String> innerInsulateWallTreeItem = new TreeItem<>("Внутренняя теплая стена");
         wallsTreeItem.getChildren().add(innerInsulateWallTreeItem);
         
-        NavPaneTreeView.setPrefHeight(1000.0);
+        TreeItem<String> visualRedactorTreeItem = new TreeItem<>("Редактор");
+        projectTreeItem.getChildren().add(visualRedactorTreeItem);
+        //wallsTreeItem.setExpanded(true);
         
-      //  NavPaneTreeView.setMaxHeight(Control.USE_PREF_SIZE);
+        NavPaneTreeView.setPrefHeight(1000.0);
     }
     // Выбираем в левой панели нужные итемс и меняем центр панели
     public void mouseTreeItemClick(MouseEvent mouseEvent) throws IOException {
@@ -52,7 +55,14 @@ public class NavPaneController implements Initializable {
             case 2: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/mainwall/FXMLPropertyPane.fxml")));
                     break;
             case 3: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/innerinsulatewall/InnerInsulateWallPropertyPane.fxml")));
+                    
+            System.out.println("case 3");
                     break;
+            case 4: border.setCenter(FXMLLoader.load(getClass().getResource("visualredactor/visualredactor.fxml")));
+                    break;
+                    
+                               
+
         }
         
     }

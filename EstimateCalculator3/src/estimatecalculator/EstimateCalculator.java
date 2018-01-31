@@ -5,8 +5,11 @@
  */
 package estimatecalculator;
 
+import estimatecalculator.classes.Aperture;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -17,6 +20,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 
+
 /**
  *
  * @author I
@@ -24,7 +28,12 @@ import org.xml.sax.SAXException;
 public class EstimateCalculator extends Application {
     
   public static BorderPane border = new BorderPane();
+  public static ObservableList<Aperture> innerInsulateWallAperturesObservableList;
     
+    public EstimateCalculator() {
+        this.innerInsulateWallAperturesObservableList = FXCollections.observableArrayList();
+    }
+
    public static void main(String[] arguments) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
    {
 //       // Читаем файл настроек       
@@ -39,9 +48,7 @@ public class EstimateCalculator extends Application {
 //       lastDir = xPath.evaluate("//root/lastDir/text()", document.getDocumentElement());
         
        Application.launch(EstimateCalculator.class, arguments);
-
    }
-
 
    @Override
    public void start(final Stage stage) throws Exception

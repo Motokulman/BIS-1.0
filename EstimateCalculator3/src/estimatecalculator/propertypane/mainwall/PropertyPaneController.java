@@ -25,15 +25,18 @@ public class PropertyPaneController implements Initializable {
     @FXML private TextField apertureNameField;
     @FXML private TextField apertureAreaField;
     @FXML private TextField apertureNeedLintelledWidthField;
+    ObservableList<Aperture> mainWallAperturesObservableList;
 
     @FXML
     protected void addAperture(ActionEvent event) {
-        ObservableList<Aperture> data = tableView.getItems();
-        data.add(new Aperture(apertureNameField.getText(), new Double(apertureAreaField.getText()), new Double(apertureNeedLintelledWidthField.getText())));
+        mainWallAperturesObservableList = tableView.getItems();
+        mainWallAperturesObservableList.add(new Aperture(apertureNameField.getText(), new Double(apertureAreaField.getText()), new Double(apertureNeedLintelledWidthField.getText())));
         
         apertureNameField.setText("");
         apertureAreaField.setText("");
         apertureNeedLintelledWidthField.setText("");   
+        
+//        System.out.println("addAperture");
     }    /**
      * Initializes the controller class.
      */
