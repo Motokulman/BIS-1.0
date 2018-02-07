@@ -6,7 +6,9 @@
 package estimatecalculator;
 
 import static estimatecalculator.EstimateCalculator.border;
-import estimatecalculator.propertypane.innerinsulatewall.InnerInsulateWallPropertyPaneController;
+import static estimatecalculator.visualredactor.CompoundVisualRedactor.getVisualRedactor;
+import static estimatecalculator.visualredactor.VisualRedactorScheme.getPanePic;
+import static estimatecalculator.visualredactor.VisualRedactorScheme.getPic;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+
 
 /**
  * FXML Controller class
@@ -37,11 +40,36 @@ public class NavPaneController implements Initializable {
         projectTreeItem.getChildren().add(wallsTreeItem);
         wallsTreeItem.setExpanded(true);
         
-        TreeItem<String> mainWallTreeItem = new TreeItem<>("Базовая стена");
-        wallsTreeItem.getChildren().add(mainWallTreeItem);
+        TreeItem<String> fasadeWallTreeItem = new TreeItem<>("Фасадные стены");
+        wallsTreeItem.getChildren().add(fasadeWallTreeItem);
+        fasadeWallTreeItem.setExpanded(true);
+        
+        TreeItem<String> mainFasadeWallTreeItem = new TreeItem<>("Базовая стена");
+        fasadeWallTreeItem.getChildren().add(mainFasadeWallTreeItem);
+        
+        TreeItem<String> secondFasadeWallTreeItem = new TreeItem<>("Стена гаража например");
+        fasadeWallTreeItem.getChildren().add(secondFasadeWallTreeItem);
         
         TreeItem<String> innerInsulateWallTreeItem = new TreeItem<>("Внутренняя теплая стена");
         wallsTreeItem.getChildren().add(innerInsulateWallTreeItem);
+        
+        TreeItem<String> innerLoaderWallTreeItem = new TreeItem<>("Внутренняя несущая стена");
+        wallsTreeItem.getChildren().add(innerLoaderWallTreeItem);
+        
+        TreeItem<String> partitionWallTreeItem1 = new TreeItem<>("Перегородка по материалу стен 1 (толстая)");
+        wallsTreeItem.getChildren().add(partitionWallTreeItem1);
+        
+        TreeItem<String> partitionWallTreeItem2 = new TreeItem<>("Перегородка по материалу стен 2 (тонкая)");
+        wallsTreeItem.getChildren().add(partitionWallTreeItem2);
+        
+        TreeItem<String> partitionWallTreeItem3 = new TreeItem<>("Перегородка из конкретного материала");
+        wallsTreeItem.getChildren().add(partitionWallTreeItem3);
+        
+        TreeItem<String> partitionWallTreeItem4 = new TreeItem<>("Перегородка из гипсокартона");
+        wallsTreeItem.getChildren().add(partitionWallTreeItem4);
+        
+        TreeItem<String> partitionWallTreeItem5 = new TreeItem<>("Перегородка из кирпича");
+        wallsTreeItem.getChildren().add(partitionWallTreeItem5);
         
         TreeItem<String> visualRedactorTreeItem = new TreeItem<>("Редактор");
         projectTreeItem.getChildren().add(visualRedactorTreeItem);
@@ -55,15 +83,18 @@ public class NavPaneController implements Initializable {
             case 2: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/mainwall/FXMLPropertyPane.fxml")));
                     break;
             case 3: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/innerinsulatewall/InnerInsulateWallPropertyPane.fxml")));
-                    
-            System.out.println("case 3");
                     break;
-            case 4: border.setCenter(FXMLLoader.load(getClass().getResource("visualredactor/visualredactor.fxml")));
+            case 4: border.setCenter(FXMLLoader.load(getClass().getResource("propertypane/innerloadedwall/InnerLoadedWall.fxml")));
                     break;
-                    
-                               
+            case 5: border.setCenter(getPic());
+                    break;
+             case 6: border.setCenter(getPanePic());
+                    break;
+             case 7: border.setCenter(getVisualRedactor(600, 600, 15, 15));
+                    System.out.println("getVisualRedactor");
+                    break;
 
-        }
+         }
         
     }
 }

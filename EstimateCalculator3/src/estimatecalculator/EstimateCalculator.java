@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package estimatecalculator;
 
 import estimatecalculator.classes.Aperture;
@@ -19,12 +14,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
-
-
-/**
- *
- * @author I
- */
 public class EstimateCalculator extends Application {
     
   public static BorderPane border = new BorderPane();
