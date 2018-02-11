@@ -20,11 +20,11 @@ public class SchemeCanvas extends Canvas{
     public static int schemeCountCellsX;
     public static int schemeCountCellsY;
     public static int padding;
-    public static double Width;
-    public static double Height;
+    public static double schemeCanvasWidth;
+    public static double schemeCanvasHeight;
     public static GraphicsContext graphicsContext;
-    public static int[] coordX;
-    public static int[] coordY;
+    public static int[] schemeCanvasCoordX;
+    public static int[] schemeCanvasCoordY;
     public static int hvostik = 3;
     
     public SchemeCanvas() { 
@@ -33,11 +33,11 @@ public class SchemeCanvas extends Canvas{
         this.schemeCountCellsX = 14;
         this.schemeCountCellsY = 14;
         this.padding = 20;
-        this.Width = this.getWidth();
-        this.Height = this.getHeight();
+        this.schemeCanvasWidth = this.getWidth();
+        this.schemeCanvasHeight = this.getHeight();
         graphicsContext = this.getGraphicsContext2D();
-        coordX = coordinateGridNodesX();
-        coordY = coordinateGridNodesY();
+        schemeCanvasCoordX = coordinateGridNodesX();
+        schemeCanvasCoordY = coordinateGridNodesY();
         clearSchemeCanvas();
         drawPoint();
     }
@@ -45,17 +45,17 @@ public class SchemeCanvas extends Canvas{
         private static void clearSchemeCanvas() { //(GraphicsContext gc, Canvas canvas, int schemeCountCellsX, int schemeCountCellsY, paddingScheme) {
             graphicsContext.setFill(Color.WHITE);
             graphicsContext.setLineWidth(1.0);
-            graphicsContext.fillRect(0, 0, Width, Height);
+            graphicsContext.fillRect(0, 0, schemeCanvasWidth, schemeCanvasHeight);
             graphicsContext.beginPath();
             graphicsContext.setStroke(Color.GRAY);   
             graphicsContext.setLineDashes(3, 3); // gc.setLineDashes(4, 4, 10, 4); - рисует ось симметрии
             for (int i = 0; i < schemeCountCellsX + 1; i++) {
-                graphicsContext.moveTo(coordX[i] + 0.5, padding - hvostik + 0.5);
-                graphicsContext.lineTo(coordX[i] + 0.5, Height - padding + hvostik + 0.5);
+                graphicsContext.moveTo(schemeCanvasCoordX[i] + 0.5, padding - hvostik + 0.5);
+                graphicsContext.lineTo(schemeCanvasCoordX[i] + 0.5, schemeCanvasHeight - padding + hvostik + 0.5);
             }            
             for (int i = 0; i < schemeCountCellsY + 1; i++) {
-                graphicsContext.moveTo(padding - hvostik + 0.5, coordY[i] + 0.5);
-                graphicsContext.lineTo(Width - padding + hvostik + 0.5, coordY[i] + 0.5);
+                graphicsContext.moveTo(padding - hvostik + 0.5, schemeCanvasCoordY[i] + 0.5);
+                graphicsContext.lineTo(schemeCanvasWidth - padding + hvostik + 0.5, schemeCanvasCoordY[i] + 0.5);
             }
             graphicsContext.stroke();
 }
@@ -63,14 +63,14 @@ public class SchemeCanvas extends Canvas{
         public static int[] coordinateGridNodesX() {
         int[] koord = new int[schemeCountCellsX + 1];
             for (int i = 0; i < schemeCountCellsX + 1; i++) {
-                koord[i] = (int)(padding + i*(Width - 2*padding)/schemeCountCellsX);
+                koord[i] = (int)(padding + i*(schemeCanvasWidth - 2*padding)/schemeCountCellsX);
             }   
         return koord;
     }
         public static int[] coordinateGridNodesY() {
         int[] koord = new int[schemeCountCellsY + 1];
             for (int i = 0; i < schemeCountCellsY + 1; i++) {
-                koord[i] = (int)(padding + i*(Height - 2*padding)/schemeCountCellsY);
+                koord[i] = (int)(padding + i*(schemeCanvasHeight - 2*padding)/schemeCountCellsY);
             }   
         return koord;
     }
@@ -82,10 +82,10 @@ public class SchemeCanvas extends Canvas{
             public void handle(MouseEvent e) {
                 if (pointSelected == true) {
                     for (int i = 0; i < schemeCountCellsX + 1; i++) {
-                        if ((coordX[i] - 7 < e.getX()) && (e.getX() < coordX[i] + 7)) {
+                        if ((schemeCanvasCoordX[i] - 7 < e.getX()) && (e.getX() < schemeCanvasCoordX[i] + 7)) {
                             for (int j = 0; j < schemeCountCellsY + 1; j++) {
-                                if ((coordY[j] - 7 < e.getY()) && (e.getY() < coordY[j] + 7)) {
-                                    graphicsContext.fillOval(coordX[i] - 7, coordY[j] - 7, 14, 14); 
+                                if ((schemeCanvasCoordY[j] - 7 < e.getY()) && (e.getY() < schemeCanvasCoordY[j] + 7)) {
+                                    graphicsContext.fillOval(schemeCanvasCoordX[i] - 7, schemeCanvasCoordY[j] - 7, 14, 14); 
                                 } 
                             }
                         }
