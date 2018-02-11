@@ -91,10 +91,8 @@ public class NavPaneController implements Initializable {
              case 6: border.setCenter(getPanePic());
                     break;
              case 7: border.setCenter(getVisualRedactor(600, 600, 14, 14));
-                    System.out.println("getVisualRedactor");
                     break;
              case 8: border.setCenter(getVisualRedactor(400, 700, 9, 18));
-                    System.out.println("getVisualRedactor");
                     break;
 
          }

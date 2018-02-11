@@ -18,7 +18,7 @@ public class EstimateCalculator extends Application {
     
   public static BorderPane border = new BorderPane();
   public static ObservableList<Aperture> innerInsulateWallAperturesObservableList;
-  public static int paddingScheme = 20; // для рисования схемы, используется во многих функциях, поэтому здесь
+ // public static int paddingScheme = 20; // для рисования схемы, используется во многих функциях, поэтому здесь
 
     
     public EstimateCalculator() {
