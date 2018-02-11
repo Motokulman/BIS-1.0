@@ -5,14 +5,13 @@
  */
 package estimatecalculator.visualredactor;
 
+import estimatecalculator.classes.SchemeCanvas;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -21,101 +20,41 @@ import javafx.scene.shape.Rectangle;
  */
 public class VisualRedactorScheme {
     
+    
 
     public static Pane getClearScheme(int schemeWidth, int schemeHeight, int schemeCountCellsX, int schemeCountCellsY) {
     Pane pane = new Pane();
-    Canvas schemeFieldCanvas = new Canvas(schemeWidth, schemeHeight);
-    GraphicsContext graphicsContext = schemeFieldCanvas.getGraphicsContext2D();
-        graphicsContext.setFill(Color.WHITE);
-        graphicsContext.setStroke(Color.BLUE);
-        graphicsContext.setLineWidth(1.0);
-        graphicsContext.fillRect(0, 0, schemeFieldCanvas.getWidth(), schemeFieldCanvas.getHeight());
-        // Рисуем линии
-        drawLines(graphicsContext, schemeFieldCanvas, schemeCountCellsX, schemeCountCellsY);       
+    Canvas schemeFieldCanvas = new SchemeCanvas();
+//    GraphicsContext graphicsContext = schemeFieldCanvas.getGraphicsContext2D();
+//        graphicsContext.setFill(Color.WHITE);
+//        graphicsContext.setLineWidth(1.0);
+//        graphicsContext.fillRect(0, 0, schemeFieldCanvas.getWidth(), schemeFieldCanvas.getHeight());
+//        // Рисуем линии
+//        drawLines(graphicsContext, schemeFieldCanvas, schemeCountCellsX, schemeCountCellsY);       
+//        schemeRedactor(schemeFieldCanvas, schemeCountCellsX, schemeCountCellsY);
         pane.getChildren().add(schemeFieldCanvas);
-        
         return (pane);
     }
-    
-    
-    //        SchemaTextField SchemaTextField_A = new SchemaTextField();
-//        grid.add(SchemaTextField_A, 0, 0); 
-//
-//        // Рисуем поле схемы
-//        Group root = new Group();
-//       // Create the Canvas, filled in with Blue
-//        final Canvas canvas = new Canvas(600, 600);
-//       // canvas.setTranslateX(100);
-//      //  canvas.setTranslateY(100);
-//        reset(canvas, Color.WHITE);
-//        
-//        final GraphicsContext gc = canvas.getGraphicsContext2D();
-//
-//        // Рисуем линии
-   //     drawLines(graphicsContext, schemeFieldCanvas);
-//        
-//        // Clear away portions as the user drags the mouse
-//        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent e) {
-//                
-//                gc.clearRect(e.getX() - 2, e.getY() - 2, 5, 5);
-//            }
-//        });
-//        
-//        // Fill the Canvas with a Blue rectnagle when the user double-clicks
-//        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent t) {            
-//                if (t.getClickCount() >1) {
-//                    reset(canvas, Color.BLUE);
-//                }  
-//            }
-//        });
-//        
-//        // Add the Canvas to the Scene, and show the Stage
-//        root.getChildren().add(canvas);
-//        grid.add(root, 1, 0); 
+
     // Функция рисования линий 
-    private static void drawLines(GraphicsContext gc, Canvas canvas, int schemeCountCellsX, int schemeCountCellsY) {
-            int padding = 20;
-            int hvostik = 3;
-            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            int gapX = (int)((canvas.getWidth() - 2*padding)/schemeCountCellsX);
-            int gapY = (int)((canvas.getHeight() - 2*padding)/schemeCountCellsY);
-           // System.out.println(gapY);
-         //   String letters = new String("АБВГДЕЖИКЛМНПРСТУФХЦ");
-            
-            gc.beginPath();
-            gc.setStroke(Color.GRAY);   
-            gc.setLineDashes(3, 3); // gc.setLineDashes(4, 4, 10, 4); - рисует ось симметрии
-            for (double i = 0; i < schemeCountCellsX + 1; i++) {
-                double koord = (int)(canvas.getWidth() - padding - i*(canvas.getWidth() - 2*padding)/schemeCountCellsX) + 0.5;
-                gc.moveTo(koord, padding - hvostik + 0.5);
-                gc.lineTo(koord, canvas.getHeight() - padding + hvostik + 0.5);
-            }            
-            for (double i = 0; i < schemeCountCellsY + 1; i++) {
-                double koord = (int)(canvas.getHeight() - padding - i*(canvas.getHeight() - 2*padding)/schemeCountCellsY) + 0.5;
-                gc.moveTo(padding - hvostik + 0.5, koord);
-                gc.lineTo(canvas.getWidth() - padding + hvostik + 0.5, koord);
-            }
-            gc.stroke();
-            
-            // Это буквы и цифры для осей:
-//            gc.setFont(new Font(12));
-//            gc.setLineDashes(0);
-//            gc.setLineWidth(1.0);
-//            gc.setFill(Color.BLACK); 
-            
-//            for (double i = padding, j = 1; i < canvas.getHeight(); i = i + gap, j++) {
-//                gc.fillText(Integer.toString((int) j), i - 5, 10.5);
-//                gc.fillText(Integer.toString((int) j), i - 5, canvas.getHeight() - 2.5);
-//           }  
-//            for (double i = canvas.getWidth() - padding + 4, j = 0; i > 0; i = i - gap, j++) {
-//                gc.fillText(Character.toString(letters.charAt((int) j)), 2, i);
-//                gc.fillText(Character.toString(letters.charAt((int) j)), canvas.getWidth() - 11, i);
-//           }  
-        }
+//    private static void drawLines(GraphicsContext gc, Canvas canvas, int schemeCountCellsX, int schemeCountCellsY, paddingScheme) {
+//            int hvostik = 3;
+//            int[] coordX = coordinateGridNodes(canvas.getWidth(), schemeCountCellsX, padding);
+//            int[] coordY = coordinateGridNodes(canvas.getHeight(), schemeCountCellsY, padding);
+//            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//            gc.beginPath();
+//            gc.setStroke(Color.GRAY);   
+//            gc.setLineDashes(3, 3); // gc.setLineDashes(4, 4, 10, 4); - рисует ось симметрии
+//            for (int i = 0; i < schemeCountCellsX + 1; i++) {
+//                  gc.moveTo(coordX[i], padding - hvostik + 0.5);
+//                  gc.lineTo(coordX[i], canvas.getHeight() - padding + hvostik + 0.5);
+//            }            
+//            for (int i = 0; i < schemeCountCellsY + 1; i++) {
+//                gc.moveTo(padding - hvostik + 0.5, coordY[i] + 0.5);
+//                gc.lineTo(canvas.getWidth() - padding + hvostik + 0.5, coordY[i] + 0.5);
+//            }
+//            gc.stroke();
+//        }
     
     
     public static BorderPane getPic() {
