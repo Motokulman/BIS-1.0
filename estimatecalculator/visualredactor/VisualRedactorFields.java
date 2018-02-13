@@ -26,14 +26,19 @@ public class VisualRedactorFields {
     public static void CreateVisualRedactorFields(int schemeWidth, int schemeHeight, int schemeCountCellsX, int schemeCountCellsY) {
         for (int i = 0; i < schemeCountCellsX; i++) {
             textFieldObservableListAbsoluteX.add(new TextFieldForVisualRedactor(scale, "AbsoluteX", i));
+           // textFieldObservableListAbsoluteX.get(i).setText("0");
             textFieldObservableListAbsoluteX.get(i).setLayoutX(textFieldObservableListAbsoluteX.get(i).getPrefWidth() - 3 + ((schemeWidth - 2*padding)/schemeCountCellsX)/2 + padding + ((schemeWidth - 2*padding)/schemeCountCellsX - textFieldObservableListAbsoluteX.get(i).getPrefWidth())/2 + i*(schemeWidth - 2*padding)/schemeCountCellsX);
         }
         for (int i = 0; i < schemeCountCellsX; i++) {
+            axisXObservableList.add(0);
+            
             textFieldObservableListRelativeX.add(new TextFieldForVisualRedactor(scale, "RelativeX", i));
             textFieldObservableListRelativeX.get(i).setLayoutY(schemeHeight + 25);
             textFieldObservableListRelativeX.get(i).setLayoutX(textFieldObservableListRelativeX.get(i).getPrefWidth() - 3 + padding + ((schemeWidth - 2*padding)/schemeCountCellsX - textFieldObservableListRelativeX.get(i).getPrefWidth())/2 + i*(schemeWidth - 2*padding)/schemeCountCellsX);
+//textFieldObservableListRelativeX.get(i).setText(Integer.toString(axisXObservableList.get(i)));
         }
         for (int i = 0; i < schemeCountCellsY; i++) {
+            axisYObservableList.add(0);
             textFieldObservableListRelativeY.add(new TextFieldForVisualRedactor(scale, "RelativeY", i));
             textFieldObservableListRelativeY.get(i).setLayoutY(schemeHeight - 8 - ((schemeHeight - 2*padding)/schemeCountCellsY)/2 - i*(schemeHeight - 2*padding)/schemeCountCellsY);
         }
@@ -47,55 +52,16 @@ public class VisualRedactorFields {
     
     public static Pane getFields(int schemeWidth, int schemeHeight, int schemeCountCellsX, int schemeCountCellsY) {
         Pane pane = new Pane();
-        int k = 0;
         
         // Верхний ряд полей для абсолютных значений
         for (int i = 0; i < schemeCountCellsX; i++) {
-            System.out.println(axisXObservableList.size());
-            if (i < axisXObservableList.size()) {
-                k = k + axisXObservableList.get(i);
-                textFieldObservableListAbsoluteX.get(i).setText(Integer.toString(k));
-            }
-            else {
-                textFieldObservableListAbsoluteX.get(i).setText("0");
-            }
             pane.getChildren().add(textFieldObservableListAbsoluteX.get(i));
-        }
-        k = 0;
-        
-        // Нижний ряд полей для относительных значений
-        for (int i = 0; i < schemeCountCellsX; i++) {
-            if (i < axisXObservableList.size()) {
-                textFieldObservableListRelativeX.get(i).setText(Integer.toString(axisXObservableList.get(i)));
-            }
-            else {
-                textFieldObservableListRelativeX.get(i).setText("0");
-            }
             pane.getChildren().add(textFieldObservableListRelativeX.get(i));
         }
-        
-        // Левый ряд полей для относительных значений
         for (int i = 0; i < schemeCountCellsY; i++) {
-            if (i < axisYObservableList.size()) {
-                textFieldObservableListRelativeY.get(i).setText(Integer.toString(axisYObservableList.get(i)));
-            }
-            else {
-                textFieldObservableListRelativeY.get(i).setText("0");
-            }
             pane.getChildren().add(textFieldObservableListRelativeY.get(i));
-        }
-        
-        // Правый ряд полей для абсолютных значений
-        for (int i = 0; i < schemeCountCellsY; i++) {
-            if (i < axisYObservableList.size()) {
-                k = k + axisYObservableList.get(i);
-                textFieldObservableListAbsoluteY.get(i).setText(Integer.toString(k));
-            }
-            else {
-                textFieldObservableListAbsoluteY.get(i).setText("0");
-            }
             pane.getChildren().add(textFieldObservableListAbsoluteY.get(i));
-        }
+        }        
         return (pane);
     }
 }

@@ -6,6 +6,9 @@
 package estimatecalculator.visualredactor;
 
 import static estimatecalculator.EstimateCalculator.axisXObservableList;
+import static estimatecalculator.EstimateCalculator.textFieldObservableListAbsoluteX;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 
@@ -15,22 +18,40 @@ import javafx.scene.input.KeyEvent;
  */
 public class TextFieldForVisualRedactor extends TextField {
    static public int Width = 48;
-   static public String areaTextFieldForVisualRedactor; 
-   static public int numberTextFieldForVisualRedactor;
+   static public String area; 
+   static public int number;
    
    public TextFieldForVisualRedactor(double scale, String area, int number) {
         this.setPrefWidth(Width);
         this.setScaleX(scale);
-        this.areaTextFieldForVisualRedactor = area;
-        this.numberTextFieldForVisualRedactor = number;
-   //     this.setText(Integer.toString(number)); //Настоящий текст
+        this.area = area;
+        this.number = number;
+   //     this.setText(area + "  " + number);
+        this.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+               System.out.println(area);
+               System.out.println(number);
+               switch (area) {
+                   case "AbsoluteX": {
+                      System.out.println("area AbsoluteX"); 
+                   }
+               }
+
+            }
+        }
+        );
    }
-   
-//   private void passTextFieldForVisualRedactorValueToList(){
-//       this.addEventHandler(KeyEvent.KEY_TYPED, (KeyEvent event) -> {
-//           //axisXObservableList.get(number)
-//       }) ;
-//   }
+
+
+//private void changeTextFromRelativeXtoAbsoluteX() {
+//    int k = Integer.valueOf(textFieldObservableListAbsoluteX.get(0).getText());
+//    textFieldObservableListAbsoluteX.get(0).setText(textFieldObservableListAbsoluteX.get(0).getText());
+//    for(int i = 1; i < axisXObservableList.size(); i++) {
+//        k = k + Integer.valueOf(textFieldObservableListAbsoluteX.get(i).getText());
+//        textFieldObservableListAbsoluteX.get(i).setText(Integer.toString(k));
+//    }
+//}  
        
     
 
