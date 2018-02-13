@@ -5,13 +5,16 @@
  */
 package estimatecalculator.visualredactor;
 
+import static estimatecalculator.classes.SchemeCanvas.graphicsContext;
+import static estimatecalculator.classes.SchemeCanvas.schemeGridNodesCanvasCoordX;
+import static estimatecalculator.classes.SchemeCanvas.schemeGridNodesCanvasCoordY;
 import static estimatecalculator.visualredactor.VisualRedactorFields.getFields;
 import static estimatecalculator.visualredactor.VisualRedactorScheme.getClearScheme;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -20,12 +23,13 @@ import javafx.scene.layout.Pane;
 public class CompoundVisualRedactor {
         public static boolean pointSelected = false;
         public static boolean lineSelected = true;    
+        public static String whatDrawNow = "Wall";
    
     public static Pane getVisualRedactor(int schemeWidth, int schemeHeight, int schemeCountCellsX, int schemeCountCellsY) {
     
         Pane pane = new Pane();
         Pane schemePane = new Pane(); // Отдельная панель для схемы чтобы спозиционировать ее, т.е. задать setLayoutX и setLayoutY. Можно то же сделать в исходном классе, но композер ведь здесь
-        pane.getChildren().add(getFields(schemeWidth, schemeHeight, schemeCountCellsX, schemeCountCellsY));
+        pane.getChildren().add(getFields(600, 600, 14, 14));
         schemePane.getChildren().add(getClearScheme(schemeWidth, schemeHeight, schemeCountCellsX, schemeCountCellsY));
         schemePane.setLayoutX(TextFieldForVisualRedactor.Width - 4);
         schemePane.setLayoutY(25);
@@ -36,8 +40,8 @@ public class CompoundVisualRedactor {
         pointButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                pointSelected = true;
-                lineSelected = false;
+                whatDrawNow = "Point";
+                //graphicsContext.setStroke(Color.YELLOW);
                 System.out.println(pointSelected);  
             }
         });
@@ -48,15 +52,12 @@ public class CompoundVisualRedactor {
         lineButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                pointSelected = false;
-                lineSelected = true;
+                whatDrawNow = "Wall";
             }
         });
 
         pane.getChildren().addAll(pointButton, lineButton);
-        
         pane.getChildren().add(schemePane);
-       // System.out.println("sdf");    
         return (pane);
     }
     

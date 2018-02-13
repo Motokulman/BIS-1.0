@@ -10,7 +10,20 @@ package estimatecalculator.scheme.primitives;
  * @author I
  */
 public class Point {
-    int X;
-    int Y;
+    private int X;
+    private int Y;
+
+    public Point(int i, int j) {
+        this.X = i;
+        this.Y = j;
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
+    }
  
 }

@@ -6,6 +6,7 @@
 package estimatecalculator.visualredactor;
 
 import estimatecalculator.classes.SchemeCanvas;
+import static estimatecalculator.classes.SchemeCanvas.clearSchemeCanvas;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -23,6 +24,7 @@ public class VisualRedactorScheme {
     public static Pane getClearScheme(int schemeWidth, int schemeHeight, int schemeCountCellsX, int schemeCountCellsY) {
         Pane pane = new Pane();
         Canvas schemeFieldCanvas = new SchemeCanvas();
+        //clearSchemeCanvas();
         pane.getChildren().add(schemeFieldCanvas);
         return (pane);
     }

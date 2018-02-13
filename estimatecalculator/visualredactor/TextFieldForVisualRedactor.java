@@ -5,7 +5,9 @@
  */
 package estimatecalculator.visualredactor;
 
+import static estimatecalculator.EstimateCalculator.axisXObservableList;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -13,10 +15,23 @@ import javafx.scene.control.TextField;
  */
 public class TextFieldForVisualRedactor extends TextField {
    static public int Width = 48;
-   public TextFieldForVisualRedactor(double scale) {
+   static public String areaTextFieldForVisualRedactor; 
+   static public int numberTextFieldForVisualRedactor;
+   
+   public TextFieldForVisualRedactor(double scale, String area, int number) {
         this.setPrefWidth(Width);
         this.setScaleX(scale);
-     //   this.setPromptText("0"); // Замещающий тескт
-        this.setText("0"); //Настоящий текст
-    }    
+        this.areaTextFieldForVisualRedactor = area;
+        this.numberTextFieldForVisualRedactor = number;
+   //     this.setText(Integer.toString(number)); //Настоящий текст
+   }
+   
+//   private void passTextFieldForVisualRedactorValueToList(){
+//       this.addEventHandler(KeyEvent.KEY_TYPED, (KeyEvent event) -> {
+//           //axisXObservableList.get(number)
+//       }) ;
+//   }
+       
+    
+
 }
