@@ -5,11 +5,13 @@
  */
 package estimatecalculator.scheme.primitives;
 
+import java.io.Serializable;
+
 /**
  *
  * @author I
  */
-public class Couple {
+public class Couple  implements Serializable{
     int X1;
     int Y1;
     int X2;

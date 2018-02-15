@@ -13,9 +13,9 @@
          <Menu text="Файл">
             <items>
                <MenuItem text="Новый" onAction="#handleCreateNewFile"/>
-               <MenuItem text="Открыть"/>
+               <MenuItem text="Открыть"  onAction="#handleOpenFile"/>
                <MenuItem text="Сохранить"/>
-               <MenuItem text="Сохранить как"/>
+               <MenuItem text="Сохранить как" onAction="#handleSaveFileAs"/>
                <SeparatorMenuItem  />
                <MenuItem text="Выход"/>
             </items>

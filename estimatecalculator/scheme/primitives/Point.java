@@ -5,11 +5,13 @@
  */
 package estimatecalculator.scheme.primitives;
 
+import java.io.Serializable;
+
 /**
  *
  * @author I
  */
-public class Point {
+public class Point  implements Serializable{
     private int X;
     private int Y;
 

@@ -1,6 +1,7 @@
 package estimatecalculator;
 
 import estimatecalculator.classes.Aperture;
+import estimatecalculator.scheme.Scheme;
 import estimatecalculator.scheme.primitives.Couple;
 import estimatecalculator.scheme.primitives.Point;
 import estimatecalculator.visualredactor.TextFieldForVisualRedactor;
@@ -31,6 +32,9 @@ public class EstimateCalculator extends Application {
   public static ObservableList<TextFieldForVisualRedactor> textFieldObservableListRelativeX; // Массив TextField Нижний ряд полей для относительных значений
   public static ObservableList<TextFieldForVisualRedactor> textFieldObservableListRelativeY; // Массив TextField Левый ряд полей для относительных значений
   public static ObservableList<TextFieldForVisualRedactor> textFieldObservableListAbsoluteY; // Массив TextField Правый ряд полей для абсолютных значений
+//  public static Scheme sC = new Scheme(pointsObservableList, couplesObservableList, axisXObservableList, axisYObservableList);
+
+  public static ObservableList<Point> testPoint;
   
     public EstimateCalculator() {
         this.innerInsulateWallAperturesObservableList = FXCollections.observableArrayList();
@@ -44,10 +48,12 @@ public class EstimateCalculator extends Application {
         this.textFieldObservableListRelativeY = FXCollections.observableArrayList();
         this.textFieldObservableListAbsoluteY = FXCollections.observableArrayList();
        // System.out.println("EstimateCalculator");
+       this.testPoint = FXCollections.observableArrayList();
     }
 
    public static void main(String[] arguments) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
    {
+       // Создаем класс, в котором храним все для схемы, чтоб сохранить и открыть
         
 
 //       // Читаем файл настроек       
