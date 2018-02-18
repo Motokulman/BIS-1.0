@@ -57,10 +57,16 @@ public class VisualRedactorFields {
         
         // Верхний ряд полей для абсолютных значений
         for (int i = 0; i < schemeCountCellsX; i++) {
+            textFieldObservableListRelativeX.get(i).setText(Integer.toString(axisXObservableList.get(i))); // Если есть в памяти массивы с данными, заносим их
+            TextFieldForVisualRedactor.changeTextFromRelativeXtoAbsoluteX(); // калькулируем значения для абсолютных значений и заносим
+            // Выводим на экран
             pane.getChildren().add(textFieldObservableListAbsoluteX.get(i));
             pane.getChildren().add(textFieldObservableListRelativeX.get(i));
         }
         for (int i = 0; i < schemeCountCellsY; i++) {
+            textFieldObservableListRelativeY.get(i).setText(Integer.toString(axisYObservableList.get(i))); // Если есть в памяти массивы с данными, заносим их
+            TextFieldForVisualRedactor.changeTextFromRelativeYtoAbsoluteY(); // калькулируем значения для абсолютных значений и заносим
+            // Выводим на экран
             pane.getChildren().add(textFieldObservableListRelativeY.get(i));
             pane.getChildren().add(textFieldObservableListAbsoluteY.get(i));
         }        

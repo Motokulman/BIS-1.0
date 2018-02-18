@@ -8,6 +8,7 @@ package estimatecalculator.scheme;
 import estimatecalculator.scheme.primitives.Couple;
 import estimatecalculator.scheme.primitives.Point;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javafx.collections.ObservableList;
 
 /**
@@ -16,10 +17,10 @@ import javafx.collections.ObservableList;
  */
 public class Scheme implements Serializable{
     
-    public ObservableList<Point> p; // массив точек
-    public ObservableList<Couple> c; // массив Линий
-    public ObservableList<Integer> axisX; // массив относительных расстояний по оси Х
-    public ObservableList<Integer> axisY;
+    public ArrayList<Point> p; // массив точек
+    public ArrayList<Couple> c; // массив Линий
+    public ArrayList<Integer> axisX; // массив относительных расстояний по оси Х
+    public ArrayList<Integer> axisY;
     
     
 //    Axis axisX = new Axis();
@@ -28,30 +29,31 @@ public class Scheme implements Serializable{
 //    List<Couple> couples = new ArrayList<>();
 //    List<Curve> curves = new ArrayList<>();
 
-    public Scheme(ObservableList<Point> pOL, ObservableList<Couple> cOL, ObservableList<Integer> aX, ObservableList<Integer> aY) {
+    public Scheme(ArrayList<Point> pOL, ArrayList<Couple> cOL, ArrayList<Integer> aX, ArrayList<Integer> aY) {
         this.p = pOL;
         this.c = cOL;
         this.axisX = aX;
         this.axisY = aY;
         
-    }    
+    }      
     
+  
     public Scheme() {
     }
     
-    public ObservableList<Point> getP() {
+    public ArrayList<Point> getP() {
         return p;
     }
 
-    public ObservableList<Couple> getC() {
+    public ArrayList<Couple> getC() {
         return c;
     }
 
-    public ObservableList<Integer> getAxisX() {
+    public ArrayList<Integer> getAxisX() {
         return axisX;
     }
 
-    public ObservableList<Integer> getAxisY() {
+    public ArrayList<Integer> getAxisY() {
         return axisY;
     }
     

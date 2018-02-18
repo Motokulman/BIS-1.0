@@ -52,7 +52,7 @@ public class TextFieldForVisualRedactor extends TextField {
    }
 
 
-private void changeTextFromRelativeXtoAbsoluteX() {
+static public void changeTextFromRelativeXtoAbsoluteX() {
     int k = Integer.valueOf(axisXObservableList.get(0)); // Сначала придаем переменной k значение первого элемента списка относительных значений
     int n = 0; // переменнач для определения, есть ли дальше значения или только нули. Иначе заполнит текстовые поля абсолютных значений до конца
     textFieldObservableListAbsoluteX.get(0).setText(Integer.toString(axisXObservableList.get(0))); // Первое поле абсолютных равно первому полю относительных
@@ -72,7 +72,7 @@ private void changeTextFromRelativeXtoAbsoluteX() {
     }
 }  
        
-private void changeTextFromRelativeYtoAbsoluteY() {
+static public void changeTextFromRelativeYtoAbsoluteY() {
     int k = Integer.valueOf(axisYObservableList.get(0)); // Сначала придаем переменной k значение первого элемента списка относительных значений
     int n = 0; // переменнач для определения, есть ли дальше значения или только нули. Иначе заполнит текстовые поля абсолютных значений до конца
     textFieldObservableListAbsoluteY.get(0).setText(Integer.toString(axisYObservableList.get(0))); // Первое поле абсолютных равно первому полю относительных

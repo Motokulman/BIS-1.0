@@ -8,16 +8,20 @@ package estimatecalculator;
 
 import static estimatecalculator.EstimateCalculator.axisXObservableList;
 import static estimatecalculator.EstimateCalculator.axisYObservableList;
+import static estimatecalculator.EstimateCalculator.border;
 import static estimatecalculator.EstimateCalculator.couplesObservableList;
 import static estimatecalculator.EstimateCalculator.pointsObservableList;
 import estimatecalculator.scheme.Scheme;
+import static estimatecalculator.visualredactor.CompoundVisualRedactor.getVisualRedactor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -101,23 +105,17 @@ public class MenuController implements Initializable
     if (file != null) {
         try {
             System.out.println("!!!");
-             Scheme sC = new Scheme(pointsObservableList, couplesObservableList, axisXObservableList, axisYObservableList);
+             Scheme sC = new Scheme();
              FileInputStream fis = new FileInputStream(file);
             try (ObjectInputStream ois = new ObjectInputStream(fis)) {
                 sC = (Scheme) ois.readObject();
+                ois.close();
             }
-                pointsObservableList = sC.getP();
-                couplesObservableList = sC.getC();
-                axisXObservableList = sC.getAxisX();
-                axisYObservableList = sC.getAxisY();
-                System.out.println("sC.getP().size() = " + sC.getP().size());
-                System.out.println("sC.p.size() = " + sC.p.size());
-                System.out.println("pointsObservableList.size() = " + pointsObservableList.size());
-                
-                for (int k = 0; k < sC.getP().size(); k++) {
-                    System.out.println(sC.getP().get(k));
-                }
-            
+                pointsObservableList = FXCollections.observableArrayList(sC.getP());
+                couplesObservableList = FXCollections.observableArrayList(sC.getC());
+                axisXObservableList = FXCollections.observableArrayList(sC.getAxisX());
+                axisYObservableList = FXCollections.observableArrayList(sC.getAxisY());
+                border.setCenter(getVisualRedactor(600, 600, 14, 14));
           }
         catch (IOException ex) {
              System.out.println(ex.getMessage());
@@ -146,10 +144,18 @@ public class MenuController implements Initializable
       
     if (file != null) {
         try {
-             Scheme sC = new Scheme(pointsObservableList, couplesObservableList, axisXObservableList, axisYObservableList);
+             ArrayList pointArrayList = new ArrayList(pointsObservableList);
+             ArrayList couplesArrayList = new ArrayList(couplesObservableList);
+             ArrayList axisXArrayList = new ArrayList(axisXObservableList);
+             ArrayList axisYArrayList = new ArrayList(axisYObservableList);
+             Scheme sC = new Scheme(pointArrayList, couplesArrayList, axisXArrayList, axisYArrayList);
+        //     Point p = new Point(1, 2);
              FileOutputStream fs = new FileOutputStream(file);
             try (ObjectOutputStream os = new ObjectOutputStream(fs)) {
                 os.writeObject(sC);
+             System.out.println("Сохранили  " + sC.p.get(0));
+                os.close();        
+                
             }
           }
         catch (IOException ex) {
